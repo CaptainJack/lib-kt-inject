@@ -9,7 +9,7 @@ plugins {
 	kotlin("platform.js")
 	id("io.freefair.sources-jar")
 	id("ru.capjack.capjack-bintray")
-	id("ru.capjack.ktjs-test") version "0.1.0"
+	id("ru.capjack.ktjs-test") version "0.3.0"
 	id("ru.capjack.lib.kt-logging-js") version "0.5.0"
 	id("ru.capjack.lib.kt-reflect-js") version "0.6.2"
 }
@@ -34,10 +34,6 @@ configure<ReflectExtension> {
 	withClass("ru.capjack.lib.kt.inject.StubUserFactory")
 	withClass("ru.capjack.lib.kt.inject.StubStorage")
 	withClass("ru.capjack.lib.kt.inject.StubNotInjectable")
-}
-
-ktjsTest {
-	karmaBrowsers(KarmaBrowser.CHROME)
 }
 
 tasks.withType<KotlinJsCompile> {

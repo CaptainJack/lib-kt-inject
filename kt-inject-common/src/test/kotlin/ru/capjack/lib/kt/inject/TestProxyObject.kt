@@ -13,8 +13,6 @@ class TestProxyObject {
 		val injector = injector {}
 		val a = injector.get<StubAutoProxyFactory>().toString()
 		
-		println(a)
-		
 		assertTrue(a.contains("StubAutoProxyFactory\$Proxy"))
 	}
 	

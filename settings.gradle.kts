@@ -4,10 +4,3 @@ include(
 	"kt-inject-js-gradle",
 	"kt-inject-jvm"
 )
-
-pluginManagement {
-	repositories {
-		mavenLocal()
-		gradlePluginPortal()
-	}
-}
