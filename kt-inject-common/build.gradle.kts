@@ -6,8 +6,8 @@ plugins {
 
 dependencies {
 	implementation(kotlin("stdlib-common"))
-	implementation("ru.capjack.lib.kt.logging:kt-logging-common")
-	implementation("ru.capjack.lib.kt.reflect:kt-reflect-common")
+	implementation("ru.capjack.kt.logging:kt-logging-common")
+	implementation("ru.capjack.kt.reflect:kt-reflect-common")
 	
 	testImplementation(kotlin("test-common"))
 	testImplementation(kotlin("test-annotations-common"))

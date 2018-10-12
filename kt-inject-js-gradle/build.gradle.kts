@@ -10,19 +10,19 @@ plugins {
 }
 
 dependencies {
-	implementation("ru.capjack.lib.kt.reflect:kt-reflect-js-gradle")
+	implementation("ru.capjack.kt.reflect:kt-reflect-js-gradle")
 }
 
 gradlePlugin {
 	plugins.create("KtInjectJs") {
-		id = "ru.capjack.lib.kt-inject-js"
-		implementationClass = "ru.capjack.lib.kt.inject.js.gradle.InjectPlugin"
+		id = "ru.capjack.kt-inject-js"
+		implementationClass = "ru.capjack.kt.inject.js.gradle.InjectPlugin"
 		displayName = "Lib KtInjectJs"
 	}
 }
 
 pluginBundle {
-	vcsUrl = "https://github.com/CaptainJack/lib-kt-inject"
+	vcsUrl = "https://github.com/CaptainJack/kt-inject"
 	website = vcsUrl
 	description = "Kotlin compiler plugin for support kt-inject-js library"
 	tags = listOf("kotlin", "javascript", "inject")

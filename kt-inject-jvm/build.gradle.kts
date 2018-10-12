@@ -11,8 +11,8 @@ dependencies {
 	
 	implementation(kotlin("stdlib-jdk8"))
 	implementation(kotlin("reflect"))
-	implementation("ru.capjack.lib.kt.logging:kt-logging-jvm")
-	implementation("ru.capjack.lib.kt.reflect:kt-reflect-jvm")
+	implementation("ru.capjack.kt.logging:kt-logging-jvm")
+	implementation("ru.capjack.kt.reflect:kt-reflect-jvm")
 	
 	testImplementation(kotlin("test-junit"))
 	testImplementation("ch.qos.logback:logback-classic:1.2.+")
