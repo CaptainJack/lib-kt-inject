@@ -1,5 +1,8 @@
 package ru.capjack.kt.inject
 
+import ru.capjack.kt.reflect.callRef
+import ru.capjack.kt.reflect.valueParameters
+import kotlin.reflect.KCallable
 import kotlin.reflect.KClass
 
 inline fun <reified T : Any> Injector.get(): T {
@@ -12,4 +15,11 @@ inline fun <reified T : Any> Injector.get(name: String): T {
 
 fun <T : Any> Injector.get(type: KClass<T>, name: String): T {
 	return get(TypedName(type, name))
+}
+
+fun <T> Injector.inject(callable: KCallable<T>): (target: Any) -> T {
+	return { target ->
+		val args = callable.valueParameters.map(this::get)
+		callable.callRef(target, *args.toTypedArray())
+	}
 }

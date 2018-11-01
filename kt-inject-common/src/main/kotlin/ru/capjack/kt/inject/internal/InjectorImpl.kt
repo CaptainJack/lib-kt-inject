@@ -39,6 +39,28 @@ internal class InjectorImpl : Injector {
 		return binding.get()
 	}
 	
+	override fun get(parameter: KParameter): Any {
+		val name = parameter.name!!
+		val type = parameter.typeRef.kClass
+		
+		parameter.findAnnotation<InjectName>()?.let {
+			logger.trace { "Supple parameter '$name' by name" }
+			val n = if (it.name == "_")
+				name
+			else
+				it.name
+			return get(TypedName(type, n))
+		}
+		
+		registry.tryProduce(this, parameter)?.let {
+			logger.trace { "Supplied parameter '$name' from smart producer" }
+			return it
+		}
+		
+		logger.trace { "Supple parameter '$name' from injector" }
+		
+		return get(type)
+	}
 	
 	fun <T : Any> make(clazz: KClass<T>): T {
 		val obj = supple(clazz)
@@ -87,29 +109,6 @@ internal class InjectorImpl : Injector {
 		return create(clazz)
 	}
 	
-	fun suppleParameter(parameter: KParameter): Any {
-		val name = parameter.name!!
-		val type = parameter.typeRef.kClass
-		
-		parameter.findAnnotation<InjectName>()?.let {
-			logger.trace { "Supple parameter '$name' by name" }
-			val n = if (it.name == "_")
-				name
-			else
-				it.name
-			return get(TypedName(type, n))
-		}
-		
-		registry.tryProduce(this, parameter)?.let {
-			logger.trace { "Supplied parameter '$name' from smart producer" }
-			return it
-		}
-		
-		logger.trace { "Supple parameter '$name' from injector" }
-		
-		return get(type)
-	}
-	
 	fun <T : Any> create(clazz: KClass<T>, withArgs: Array<Any>? = null): T {
 		logger.trace { "Creating '$clazz'" }
 		
@@ -118,7 +117,7 @@ internal class InjectorImpl : Injector {
 		val constructor = clazz.primaryConstructor!!
 		
 		val args = withArgs
-			?: constructor.valueParameters.map { suppleParameter(it) }.toTypedArray()
+			?: constructor.valueParameters.map(::get).toTypedArray()
 		
 		return constructor.callRef(*args)
 	}

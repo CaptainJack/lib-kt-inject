@@ -1,6 +1,7 @@
 package ru.capjack.kt.inject.internal
 
 import ru.capjack.kt.inject.InjectException
+import ru.capjack.kt.inject.Injector
 import ru.capjack.kt.reflect.indexRef
 import ru.capjack.kt.reflect.qualifiedNameRef
 import ru.capjack.kt.reflect.typeRef
@@ -9,7 +10,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 
-internal typealias ProxyFactoryMemberArgument = (InjectorImpl, Array<out Any>) -> Any
+internal typealias ProxyFactoryMemberArgument = (Injector, Array<out Any>) -> Any
 
 internal class ProxyFactoryMember(
 	var clazz: KClass<*>,
@@ -55,6 +56,6 @@ internal class ProxyFactoryMember(
 	}
 	
 	private fun createInjectableArgument(parameter: KParameter): ProxyFactoryMemberArgument {
-		return { injector, _ -> injector.suppleParameter(parameter) }
+		return { injector, _ -> injector.get(parameter) }
 	}
 }
