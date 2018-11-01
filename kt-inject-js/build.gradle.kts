@@ -18,8 +18,8 @@ dependencies {
 	expectedBy(project(":kt-inject-common"))
 	
 	implementation(kotlin("stdlib-js"))
-	implementation("ru.capjack.kt.logging:kt-logging-js")
-	implementation("ru.capjack.kt.reflect:kt-reflect-js")
+	implementation("ru.capjack.kt.logging:kt-logging-js:${ext["version.kt-logging"]}")
+	implementation("ru.capjack.kt.reflect:kt-reflect-js:${ext["version.kt-reflect"]}")
 	
 	testImplementation(kotlin("test-js"))
 }

@@ -1,3 +1,7 @@
+import org.gradle.api.internal.artifacts.ResolvableDependency
+import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
+import org.jetbrains.kotlin.utils.addToStdlib.safeAs
+
 plugins {
 	id("nebula.release") version "8.0.3"
 	
@@ -12,14 +16,8 @@ plugins {
 subprojects {
 	group = "ru.capjack.kt.inject"
 	
-	configurations.all {
-		resolutionStrategy.eachDependency {
-			when (requested.group) {
-				"ru.capjack.kt.logging" -> useVersion("0.6.0")
-				"ru.capjack.kt.reflect" -> useVersion("0.7.0")
-			}
-		}
-	}
+	ext["version.kt-logging"] = "0.6.0"
+	ext["version.kt-reflect"] = "0.7.0"
 	
 	repositories {
 		jcenter()

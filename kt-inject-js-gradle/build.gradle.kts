@@ -10,7 +10,7 @@ plugins {
 }
 
 dependencies {
-	implementation("ru.capjack.kt.reflect:kt-reflect-js-gradle")
+	implementation("ru.capjack.kt.reflect:kt-reflect-js-gradle:${ext["version.kt-reflect"]}")
 }
 
 gradlePlugin {
