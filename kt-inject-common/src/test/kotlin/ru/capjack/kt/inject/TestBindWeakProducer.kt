@@ -7,7 +7,7 @@ import kotlin.test.assertNotEquals
 class TestBindWeakProducer {
 	@Test
 	fun self() {
-		val injector = injector { bindWeakProducer { StubEmpty() } }
+		val injector = injector { bindSupplier { StubEmpty() } }
 		
 		val a = injector.get<StubEmpty>()
 		val b = injector.get<StubEmpty>()
@@ -17,7 +17,7 @@ class TestBindWeakProducer {
 	
 	@Test
 	fun impl() {
-		val injector = injector { bindWeakProducer<StubStorage> { StubStorageImpl() } }
+		val injector = injector { bindSupplier<StubStorage> { StubStorageImpl() } }
 
 		val a = injector.get<StubStorage>()
 		val b = injector.get<StubStorage>()
@@ -30,7 +30,7 @@ class TestBindWeakProducer {
 	@Test
 	fun named_self() {
 		val name = stubNameEmpty
-		val injector = injector { bindWeakProducer(name) { StubEmpty() } }
+		val injector = injector { bindSupplier(name) { StubEmpty() } }
 		
 		val a = injector.get(name)
 		val b = injector.get(name)
@@ -42,7 +42,7 @@ class TestBindWeakProducer {
 	@Test
 	fun named_impl() {
 		val name = stubNameStorage
-		val injector = injector { bindWeakProducer(name) { StubStorageImpl() } }
+		val injector = injector { bindSupplier(name) { StubStorageImpl() } }
 		
 		val a = injector.get(name)
 		val b = injector.get(name)

@@ -7,7 +7,7 @@ class TestBindWeakProxyFactory {
 	@Test
 	fun typed() {
 		val injector = injector {
-			bindWeakProxyFactory<StubUserFactory> {
+			bindProxyFactorySupplier<StubUserFactory> {
 				delegate<StubUser, StubUserImpl>()
 			}
 		}
@@ -23,7 +23,7 @@ class TestBindWeakProxyFactory {
 		val name = stubNameFactory
 		
 		val injector = injector {
-			bindWeakProxyFactory(name) {
+			bindProxyFactorySupplier(name) {
 				delegate<StubUser, StubUserImpl>()
 			}
 		}

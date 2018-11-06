@@ -4,7 +4,7 @@ import ru.capjack.kt.inject.internal.InjectorImpl
 
 internal abstract class ReplaceBinding<T : Any>(
 	injector: InjectorImpl,
-	provider: InjectorImpl.() -> T
+	provider: (InjectorImpl) -> T
 ) : ProducerBinding<T>(injector, provider) {
 	
 	override fun get(): T {

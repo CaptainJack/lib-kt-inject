@@ -8,37 +8,49 @@ interface Binder {
 	
 	fun <T : Any> bindDelegate(clazz: KClass<T>, delegate: KClass<out T>)
 	
-	fun <T : Any> bindProducer(clazz: KClass<T>, producer: Injector.() -> T)
+	fun <T : Any> bindProducer(clazz: KClass<T>, function: () -> T)
 	
-	fun <T : Any> bindWeakDelegate(clazz: KClass<T>, delegate: KClass<out T>)
+	fun <T : Any> bindProducerInject(clazz: KClass<T>, function: Injector.() -> T)
 	
-	fun <T : Any> bindWeakProducer(clazz: KClass<T>, producer: Injector.() -> T)
+	fun <T : Any> bindSupplier(clazz: KClass<T>, delegate: KClass<out T>)
+	
+	fun <T : Any> bindSupplier(clazz: KClass<T>, function: () -> T)
+	
+	fun <T : Any> bindSupplierInject(clazz: KClass<T>, function: Injector.() -> T)
 	
 	
 	fun <T : Any> bind(name: TypedName<T>, instance: T)
 	
 	fun <T : Any> bindDelegate(name: TypedName<T>, delegate: KClass<out T>)
 	
-	fun <T : Any> bindProducer(name: TypedName<T>, producer: Injector.() -> T)
+	fun <T : Any> bindProducer(name: TypedName<T>, function: () -> T)
 	
-	fun <T : Any> bindWeakDelegate(name: TypedName<T>, delegate: KClass<out T>)
+	fun <T : Any> bindProducerInject(name: TypedName<T>, function: Injector.() -> T)
 	
-	fun <T : Any> bindWeakProducer(name: TypedName<T>, producer: Injector.() -> T)
+	fun <T : Any> bindSupplier(name: TypedName<T>, delegate: KClass<out T>)
+	
+	fun <T : Any> bindSupplier(name: TypedName<T>, function: () -> T)
+	
+	fun <T : Any> bindSupplierInject(name: TypedName<T>, function: Injector.() -> T)
 	
 	
 	fun <T : Any> bindProxyFactory(factoryClass: KClass<T>, init: ProxyFactory.() -> Unit = {})
 	
-	fun <T : Any> bindWeakProxyFactory(factoryClass: KClass<T>, init: ProxyFactory.() -> Unit = {})
+	fun <T : Any> bindProxyFactorySupplier(factoryClass: KClass<T>, init: ProxyFactory.() -> Unit = {})
 	
 	
 	fun <T : Any> bindProxyFactory(name: TypedName<T>, factoryClass: KClass<out T>, init: ProxyFactory.() -> Unit = {})
 	
-	fun <T : Any> bindWeakProxyFactory(name: TypedName<T>, factoryClass: KClass<out T>, init: ProxyFactory.() -> Unit = {})
+	fun <T : Any> bindProxyFactorySupplier(name: TypedName<T>, factoryClass: KClass<out T>, init: ProxyFactory.() -> Unit = {})
 	
 	
-	fun registerSmartProducerForClass(producer: Injector.(KClass<out Any>) -> Any?)
+	fun registerSmartProducerForClass(function: (KClass<out Any>) -> Any?)
 	
-	fun registerSmartProducerForParameter(producer: Injector.(KParameter) -> Any?)
+	fun registerSmartProducerForClassInject(function: Injector.(KClass<out Any>) -> Any?)
+	
+	fun registerSmartProducerForParameter(function: (KParameter) -> Any?)
+	
+	fun registerSmartProducerForParameterInject(function: Injector.(KParameter) -> Any?)
 	
 	
 	interface ProxyFactory {
