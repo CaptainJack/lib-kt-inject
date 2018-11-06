@@ -7,7 +7,7 @@ plugins {
 	
 	kotlin("jvm") version "1.2.61" apply false
 	id("io.freefair.sources-jar") version "2.7.3" apply false
-	id("ru.capjack.capjack-bintray") version "0.9.0" apply false
+	id("ru.capjack.capjack-bintray") version "0.10.0-dev.1+32a2534" apply false
 	id("ru.capjack.ktjs-test") version "0.4.0" apply false
 	id("ru.capjack.kt-logging-js") version "0.6.0" apply false
 	id("ru.capjack.kt-reflect-js") version "0.7.0" apply false
