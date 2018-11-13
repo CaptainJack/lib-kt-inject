@@ -20,7 +20,7 @@ class TestBind {
 		val obj = StubEmpty()
 		val name = stubNameEmpty
 		
-		val injector = injector { bind(name, obj) }
+		val injector = injector { bindInstance(name, obj) }
 		
 		assertEquals(obj, injector.get(name))
 	}
@@ -46,8 +46,8 @@ class TestBind {
 		val builder = InjectorBuilder()
 		
 		builder.configure {
-			bind(name, StubEmpty())
-			bind(name, StubEmpty())
+			bindInstance(name, StubEmpty())
+			bindInstance(name, StubEmpty())
 		}
 		
 		assertFailsWith<InjectException> {
@@ -74,8 +74,8 @@ class TestBind {
 		val name = stubNameEmpty
 		
 		builder.configure {
-			bind(name, StubEmpty())
-			bind(name, StubEmpty())
+			bindInstance(name, StubEmpty())
+			bindInstance(name, StubEmpty())
 		}
 		
 		builder.build(false)

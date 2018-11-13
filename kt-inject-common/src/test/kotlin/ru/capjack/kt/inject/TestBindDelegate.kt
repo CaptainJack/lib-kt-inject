@@ -8,7 +8,7 @@ class TestBindDelegate {
 	
 	@Test
 	fun self() {
-		val injector = injector { bindDelegate<StubEmpty, StubEmpty>() }
+		val injector = injector { bind<StubEmpty, StubEmpty>() }
 		
 		val a = injector.get<StubEmpty>()
 		val b = injector.get<StubEmpty>()
@@ -18,7 +18,7 @@ class TestBindDelegate {
 	
 	@Test
 	fun impl() {
-		val injector = injector { bindDelegate<StubStorage, StubStorageImpl>() }
+		val injector = injector { bind<StubStorage, StubStorageImpl>() }
 		
 		val a = injector.get<StubStorage>()
 		val b = injector.get<StubStorage>()
@@ -31,7 +31,7 @@ class TestBindDelegate {
 	@Test
 	fun named_self() {
 		val name = stubNameEmpty
-		val injector = injector { bindDelegate(name) }
+		val injector = injector { bind(name) }
 		
 		val a = injector.get(name)
 		val b = injector.get(name)
@@ -43,7 +43,7 @@ class TestBindDelegate {
 	@Test
 	fun named_impl() {
 		val name = stubNameStorage
-		val injector = injector { bindDelegate<StubStorage, StubStorageImpl>(name) }
+		val injector = injector { bind<StubStorage, StubStorageImpl>(name) }
 		
 		val a = injector.get(name)
 		val b = injector.get(name)

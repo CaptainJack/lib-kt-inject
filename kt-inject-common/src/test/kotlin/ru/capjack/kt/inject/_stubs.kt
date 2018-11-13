@@ -79,13 +79,13 @@ interface StubAutoDelegate
 @Inject
 class StubAutoDelegateImpl : StubAutoDelegate
 
-@InjectProxyFactory
-interface StubAutoProxyFactory {
+@InjectProxy
+interface StubAutoProxy {
 	@InjectDelegate(StubStorageImpl::class)
 	fun createStorage(): StubStorage
 }
 
-@InjectProxyFactory
-interface StubBadProxyFactory {
+@InjectProxy
+interface StubBadProxy {
 	fun createStorage(value: Int): StubEmpty
 }

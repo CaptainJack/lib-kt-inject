@@ -9,7 +9,7 @@ annotation class Inject
 annotation class InjectBind
 
 @Target(AnnotationTarget.CLASS)
-annotation class InjectProxyFactory
+annotation class InjectProxy
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class InjectDelegate(val type: KClass<out Any>)

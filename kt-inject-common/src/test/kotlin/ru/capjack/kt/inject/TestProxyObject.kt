@@ -11,16 +11,16 @@ class TestProxyObject {
 	@Test
 	fun check_toString() {
 		val injector = injector {}
-		val a = injector.get<StubAutoProxyFactory>().toString()
+		val a = injector.get<StubAutoProxy>().toString()
 		
-		assertTrue(a.contains("StubAutoProxyFactory\$Proxy"))
+		assertTrue(a.contains("StubAutoProxy\$Proxy"))
 	}
 	
 	@Test
 	fun check_hashCode_differed() {
 		val injector = injector {}
-		val a = injector.get<StubAutoProxyFactory>().hashCode()
-		val b = injector.get<StubAutoProxyFactory>().hashCode()
+		val a = injector.get<StubAutoProxy>().hashCode()
+		val b = injector.get<StubAutoProxy>().hashCode()
 		
 		assertNotEquals(a, b)
 	}
@@ -28,11 +28,11 @@ class TestProxyObject {
 	@Test
 	fun check_hashCode_equals() {
 		val injector = injector {
-			bindProxyFactory<StubAutoProxyFactory>()
+			bindProxy<StubAutoProxy>()
 		}
 		
-		val a = injector.get<StubAutoProxyFactory>().hashCode()
-		val b = injector.get<StubAutoProxyFactory>().hashCode()
+		val a = injector.get<StubAutoProxy>().hashCode()
+		val b = injector.get<StubAutoProxy>().hashCode()
 		
 		assertEquals(a, b)
 	}
@@ -40,8 +40,8 @@ class TestProxyObject {
 	@Test
 	fun check_equals_false() {
 		val injector = injector {}
-		val a = injector.get<StubAutoProxyFactory>().hashCode()
-		val b = injector.get<StubAutoProxyFactory>().hashCode()
+		val a = injector.get<StubAutoProxy>().hashCode()
+		val b = injector.get<StubAutoProxy>().hashCode()
 		
 		@Suppress("ReplaceCallWithBinaryOperator")
 		assertFalse(a.equals(b))
@@ -50,11 +50,11 @@ class TestProxyObject {
 	@Test
 	fun check_equals_true() {
 		val injector = injector {
-			bindProxyFactory<StubAutoProxyFactory>()
+			bindProxy<StubAutoProxy>()
 		}
 		
-		val a = injector.get<StubAutoProxyFactory>().hashCode()
-		val b = injector.get<StubAutoProxyFactory>().hashCode()
+		val a = injector.get<StubAutoProxy>().hashCode()
+		val b = injector.get<StubAutoProxy>().hashCode()
 		
 		@Suppress("ReplaceCallWithBinaryOperator")
 		assertTrue(a.equals(b))

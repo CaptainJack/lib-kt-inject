@@ -9,8 +9,8 @@ class TestBindProxyFactory {
 	@Test
 	fun typed() {
 		val injector = injector {
-			bindProxyFactory<StubUserFactory>() {
-				delegate<StubUser, StubUserImpl>()
+			bindProxy<StubUserFactory>() {
+				bind<StubUser, StubUserImpl>()
 			}
 		}
 		
@@ -25,8 +25,8 @@ class TestBindProxyFactory {
 		val name = stubNameFactory
 		
 		val injector = injector {
-			bindProxyFactory(name) {
-				delegate<StubUser, StubUserImpl>()
+			bindProxy(name) {
+				bind<StubUser, StubUserImpl>()
 			}
 		}
 		
@@ -40,7 +40,7 @@ class TestBindProxyFactory {
 	fun fail_on_without_provides_declaration() {
 		
 		val injector = injector {
-			bindProxyFactory<StubUserFactory>()
+			bindProxy<StubUserFactory>()
 		}
 		
 		assertFailsWith<InjectException> {
@@ -53,8 +53,8 @@ class TestBindProxyFactory {
 	fun fail_on_wrong_provides() {
 		
 		val builder = InjectorBuilder().configure {
-			bindProxyFactory<StubUserFactory> {
-				delegate<StubStorage, StubStorageImpl>()
+			bindProxy<StubUserFactory> {
+				bind<StubStorage, StubStorageImpl>()
 			}
 		}
 		

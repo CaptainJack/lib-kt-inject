@@ -14,7 +14,7 @@ class TestInjectAnnotations {
 		val name = stubNameUserId
 		
 		val injector = injector {
-			bind(name, 42)
+			bindInstance(name, 42)
 		}
 		
 		val user = injector.get<StubUserImpl>()
@@ -65,7 +65,7 @@ class TestInjectAnnotations {
 	fun proxyFactory_by_InjectProxyFactory_and_with_InjectDelegate_member() {
 		val injector = injector {}
 		
-		val f = injector.get<StubAutoProxyFactory>()
+		val f = injector.get<StubAutoProxy>()
 		val a = f.createStorage()
 		val b = f.createStorage()
 		
@@ -78,7 +78,7 @@ class TestInjectAnnotations {
 		val injector = injector {}
 		
 		assertFailsWith<InjectException> {
-			injector.get<StubBadProxyFactory>()
+			injector.get<StubBadProxy>()
 		}
 	}
 }

@@ -23,7 +23,7 @@ open class InjectPlugin : Plugin<Project> {
 		project.configure<ReflectExtension> {
 			withAnnotation("ru.capjack.kt.inject.Inject")
 			withAnnotation("ru.capjack.kt.inject.InjectBind", ANNOTATIONS)
-			withAnnotation("ru.capjack.kt.inject.InjectProxyFactory", ANNOTATIONS, MEMBERS)
+			withAnnotation("ru.capjack.kt.inject.InjectProxy", ANNOTATIONS, MEMBERS)
 			withAnnotation("ru.capjack.kt.inject.InjectDelegate", ANNOTATIONS)
 		}
 	}

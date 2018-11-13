@@ -3,7 +3,7 @@ package ru.capjack.kt.inject.internal
 import ru.capjack.kt.inject.InjectBind
 import ru.capjack.kt.inject.InjectDelegate
 import ru.capjack.kt.inject.InjectName
-import ru.capjack.kt.inject.InjectProxyFactory
+import ru.capjack.kt.inject.InjectProxy
 import ru.capjack.kt.inject.Injector
 import ru.capjack.kt.inject.TypedName
 import ru.capjack.kt.inject.internal.bindings.InstanceBinding
@@ -95,9 +95,9 @@ internal class InjectorImpl : Injector {
 			return get(it.type) as T
 		}
 		
-		if (clazz.hasAnnotation<InjectProxyFactory>()) {
+		if (clazz.hasAnnotation<InjectProxy>()) {
 			logger.trace { "Supple '$clazz' as proxy factory" }
-			return ProxyFactoryBuilder(clazz).build(this)
+			return FactoryBuilder(clazz).build(this)
 		}
 		
 		registry.tryProduce(this, clazz)?.let {

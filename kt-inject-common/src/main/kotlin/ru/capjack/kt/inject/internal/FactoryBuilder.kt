@@ -10,9 +10,9 @@ import ru.capjack.kt.reflect.returnTypeRef
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 
-internal class ProxyFactoryBuilder<T : Any>(
+internal class FactoryBuilder<T : Any>(
 	private val clazz: KClass<T>
-) : Binder.ProxyFactory {
+) : Binder.Factory {
 	
 	private var members: List<ProxyFactoryMember> = clazz.publicDeclaredMembers.map {
 		if (it is KFunction<*>)
@@ -21,7 +21,7 @@ internal class ProxyFactoryBuilder<T : Any>(
 			throw RuntimeException("Only function allowed for proxy")
 	}
 	
-	override fun <T : Any> delegate(clazz: KClass<T>, delegate: KClass<out T>): Binder.ProxyFactory {
+	override fun <T : Any> bind(clazz: KClass<T>, delegate: KClass<out T>): Binder.Factory {
 		val memberProxy = members.find { it.member.returnTypeRef.kClass == clazz }
 			?: throw InjectException("Member for return type ${this.clazz} not found in type ${this.clazz}")
 		memberProxy.target = delegate

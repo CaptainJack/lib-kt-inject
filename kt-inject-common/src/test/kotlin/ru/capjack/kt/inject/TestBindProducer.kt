@@ -8,7 +8,7 @@ class TestBindProducer {
 	
 	@Test
 	fun self() {
-		val injector = injector { bindProducer { StubEmpty() } }
+		val injector = injector { bind { StubEmpty() } }
 		
 		val a = injector.get<StubEmpty>()
 		val b = injector.get<StubEmpty>()
@@ -18,7 +18,7 @@ class TestBindProducer {
 	
 	@Test
 	fun impl() {
-		val injector = injector { bindProducer<StubStorage> { StubStorageImpl() } }
+		val injector = injector { bind<StubStorage> { StubStorageImpl() } }
 		
 		val a = injector.get<StubStorage>()
 		val b = injector.get<StubStorage>()
@@ -31,7 +31,7 @@ class TestBindProducer {
 	@Test
 	fun named_self() {
 		val name = stubNameEmpty
-		val injector = injector { bindProducer(name) { StubEmpty() } }
+		val injector = injector { bind(name) { StubEmpty() } }
 		
 		val a = injector.get(name)
 		val b = injector.get(name)
@@ -43,7 +43,7 @@ class TestBindProducer {
 	@Test
 	fun named_impl() {
 		val name = stubNameStorage
-		val injector = injector { bindProducer(name) { StubStorageImpl() } }
+		val injector = injector { bind(name) { StubStorageImpl() } }
 		
 		val a = injector.get(name)
 		val b = injector.get(name)
