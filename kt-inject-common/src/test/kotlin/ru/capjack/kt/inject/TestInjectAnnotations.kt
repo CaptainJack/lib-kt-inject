@@ -43,16 +43,6 @@ class TestInjectAnnotations {
 	}
 	
 	@Test
-	fun bind_by_InjectBind_on_interface() {
-		val injector = injector {}
-		
-		val a = injector.get<StubAutoBindedByInterface>()
-		val b = injector.get<StubStorage>()
-		
-		assertEquals(a, b)
-	}
-	
-	@Test
 	fun delegate_by_InjectImplementation() {
 		val injector = injector {}
 		

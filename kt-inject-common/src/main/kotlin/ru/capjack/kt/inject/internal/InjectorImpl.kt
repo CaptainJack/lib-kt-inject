@@ -11,7 +11,15 @@ import ru.capjack.kt.inject.internal.bindings.MemberBinding
 import ru.capjack.kt.logging.Logging
 import ru.capjack.kt.logging.getLogger
 import ru.capjack.kt.logging.trace
-import ru.capjack.kt.reflect.*
+import ru.capjack.kt.reflect.callRef
+import ru.capjack.kt.reflect.findAnnotation
+import ru.capjack.kt.reflect.hasAnnotation
+import ru.capjack.kt.reflect.kClass
+import ru.capjack.kt.reflect.primaryConstructor
+import ru.capjack.kt.reflect.publicDeclaredMembers
+import ru.capjack.kt.reflect.returnTypeRef
+import ru.capjack.kt.reflect.typeRef
+import ru.capjack.kt.reflect.valueParameters
 import kotlin.reflect.KClass
 import kotlin.reflect.KParameter
 
@@ -77,11 +85,6 @@ internal class InjectorImpl : Injector {
 				logger.trace { "Bind member '$clazz.${it.name}' as '$t'" }
 				registry.setBinding(t, MemberBinding<T>(obj, it))
 			}
-		
-		clazz.getSupertypesWithAnnotation<InjectBind>().forEach {
-			logger.trace { "Bind self '$clazz' as '$it'" }
-			registry.setBinding(it, InstanceBinding(obj))
-		}
 		
 		return obj
 	}

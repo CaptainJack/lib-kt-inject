@@ -70,9 +70,6 @@ class StubWithAutoBindProperty {
 	val user: StubUser = StubUserImpl(12)
 }
 
-@Inject
-class StubAutoBindedByInterface : @InjectBind StubStorage
-
 @InjectImplementation(StubAutoImplementationImpl::class)
 interface StubAutoImplementation
 
