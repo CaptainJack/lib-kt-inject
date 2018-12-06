@@ -24,7 +24,7 @@ open class InjectPlugin : Plugin<Project> {
 			withAnnotation("ru.capjack.kt.inject.Inject")
 			withAnnotation("ru.capjack.kt.inject.InjectBind", ANNOTATIONS)
 			withAnnotation("ru.capjack.kt.inject.InjectProxy", ANNOTATIONS, MEMBERS)
-			withAnnotation("ru.capjack.kt.inject.InjectDelegate", ANNOTATIONS)
+			withAnnotation("ru.capjack.kt.inject.InjectImplementation", ANNOTATIONS)
 		}
 	}
 	

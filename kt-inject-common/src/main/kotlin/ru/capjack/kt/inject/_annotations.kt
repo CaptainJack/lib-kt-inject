@@ -12,7 +12,7 @@ annotation class InjectBind
 annotation class InjectProxy
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
-annotation class InjectDelegate(val type: KClass<out Any>)
+annotation class InjectImplementation(val type: KClass<out Any>)
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class InjectName(val name: String = "_")

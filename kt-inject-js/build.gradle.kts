@@ -28,7 +28,7 @@ configure<ReflectExtension> {
 	withAnnotation("ru.capjack.kt.inject.Inject")
 	withAnnotation("ru.capjack.kt.inject.InjectBind", ANNOTATIONS)
 	withAnnotation("ru.capjack.kt.inject.InjectProxy", ANNOTATIONS, MEMBERS)
-	withAnnotation("ru.capjack.kt.inject.InjectDelegate", ANNOTATIONS)
+	withAnnotation("ru.capjack.kt.inject.InjectImplementation", ANNOTATIONS)
 	
 	withClass("ru.capjack.kt.inject.StubUser")
 	withClass("ru.capjack.kt.inject.StubUserFactory")

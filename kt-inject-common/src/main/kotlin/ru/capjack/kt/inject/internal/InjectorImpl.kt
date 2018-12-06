@@ -1,7 +1,7 @@
 package ru.capjack.kt.inject.internal
 
 import ru.capjack.kt.inject.InjectBind
-import ru.capjack.kt.inject.InjectDelegate
+import ru.capjack.kt.inject.InjectImplementation
 import ru.capjack.kt.inject.InjectName
 import ru.capjack.kt.inject.InjectProxy
 import ru.capjack.kt.inject.Injector
@@ -88,7 +88,7 @@ internal class InjectorImpl : Injector {
 	
 	private fun <T : Any> supple(clazz: KClass<T>): T {
 		
-		clazz.findAnnotation<InjectDelegate>()?.let {
+		clazz.findAnnotation<InjectImplementation>()?.let {
 			logger.trace { "Supple '$clazz' as delegate '${it.type}'" }
 			
 			@Suppress("UNCHECKED_CAST")

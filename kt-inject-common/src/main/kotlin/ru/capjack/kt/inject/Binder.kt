@@ -6,13 +6,13 @@ import kotlin.reflect.KParameter
 interface Binder {
 	fun <T : Any> bindInstance(clazz: KClass<T>, instance: T)
 	
-	fun <T : Any> bind(clazz: KClass<T>, delegate: KClass<out T>)
+	fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>)
 	
 	fun <T : Any> bind(clazz: KClass<T>, producer: () -> T)
 	
 	fun <T : Any> bindInjected(clazz: KClass<T>, producer: Injector.() -> T)
 	
-	fun <T : Any> bindSupplier(clazz: KClass<T>, delegate: KClass<out T>)
+	fun <T : Any> bindSupplier(clazz: KClass<T>, implementation: KClass<out T>)
 	
 	fun <T : Any> bindSupplier(clazz: KClass<T>, producer: () -> T)
 	
@@ -21,13 +21,13 @@ interface Binder {
 	
 	fun <T : Any> bindInstance(name: TypedName<T>, instance: T)
 	
-	fun <T : Any> bind(name: TypedName<T>, delegate: KClass<out T>)
+	fun <T : Any> bind(name: TypedName<T>, implementation: KClass<out T>)
 	
 	fun <T : Any> bind(name: TypedName<T>, producer: () -> T)
 	
 	fun <T : Any> bindInjected(name: TypedName<T>, producer: Injector.() -> T)
 	
-	fun <T : Any> bindSupplier(name: TypedName<T>, delegate: KClass<out T>)
+	fun <T : Any> bindSupplier(name: TypedName<T>, implementation: KClass<out T>)
 	
 	fun <T : Any> bindSupplier(name: TypedName<T>, producer: () -> T)
 	
@@ -54,6 +54,6 @@ interface Binder {
 	
 	
 	interface Factory {
-		fun <T : Any> bind(clazz: KClass<T>, delegate: KClass<out T>): Factory
+		fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>): Factory
 	}
 }

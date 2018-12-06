@@ -4,7 +4,7 @@ import ru.capjack.kt.inject.Binder
 import ru.capjack.kt.inject.InjectException
 import ru.capjack.kt.inject.Injector
 import ru.capjack.kt.inject.TypedName
-import ru.capjack.kt.inject.internal.bindings.DelegateBinding
+import ru.capjack.kt.inject.internal.bindings.ImplementationBinding
 import ru.capjack.kt.inject.internal.bindings.InstanceBinding
 import ru.capjack.kt.inject.internal.bindings.ProducerBinding
 import ru.capjack.kt.inject.internal.bindings.ReplaceBindingNamed
@@ -22,12 +22,12 @@ internal class BinderImpl(
 		injector.registry.setBinding(clazz, InstanceBinding(instance))
 	}
 	
-	override fun <T : Any> bind(clazz: KClass<T>, delegate: KClass<out T>) {
-		if (clazz == delegate) {
-			bind(clazz) { injector.make(delegate) }
+	override fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>) {
+		if (clazz == implementation) {
+			bind(clazz) { injector.make(implementation) }
 		}
 		else {
-			bindInjected(clazz) { get(delegate) }
+			bindInjected(clazz) { get(implementation) }
 		}
 	}
 	
@@ -40,13 +40,13 @@ internal class BinderImpl(
 		injector.registry.setBinding(clazz, ReplaceBindingTyped(clazz, injector, producer))
 	}
 	
-	override fun <T : Any> bindSupplier(clazz: KClass<T>, delegate: KClass<out T>) {
+	override fun <T : Any> bindSupplier(clazz: KClass<T>, implementation: KClass<out T>) {
 		check(clazz)
-		if (clazz == delegate) {
-			bindSupplier(clazz) { injector.make(delegate) }
+		if (clazz == implementation) {
+			bindSupplier(clazz) { injector.make(implementation) }
 		}
 		else {
-			injector.registry.setBinding(clazz, DelegateBinding(injector, delegate))
+			injector.registry.setBinding(clazz, ImplementationBinding(injector, implementation))
 		}
 	}
 	
@@ -65,8 +65,8 @@ internal class BinderImpl(
 		injector.registry.setBinding(name, InstanceBinding(instance))
 	}
 	
-	override fun <T : Any> bind(name: TypedName<T>, delegate: KClass<out T>) {
-		bindInjected(name) { get(delegate) }
+	override fun <T : Any> bind(name: TypedName<T>, implementation: KClass<out T>) {
+		bindInjected(name) { get(implementation) }
 	}
 	
 	override fun <T : Any> bind(name: TypedName<T>, producer: () -> T) {
@@ -79,9 +79,9 @@ internal class BinderImpl(
 	}
 	
 	
-	override fun <T : Any> bindSupplier(name: TypedName<T>, delegate: KClass<out T>) {
+	override fun <T : Any> bindSupplier(name: TypedName<T>, implementation: KClass<out T>) {
 		check(name)
-		injector.registry.setBinding(name, DelegateBinding(injector, delegate))
+		injector.registry.setBinding(name, ImplementationBinding(injector, implementation))
 	}
 	
 	override fun <T : Any> bindSupplier(name: TypedName<T>, producer: () -> T) {

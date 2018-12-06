@@ -73,15 +73,15 @@ class StubWithAutoBindProperty {
 @Inject
 class StubAutoBindedByInterface : @InjectBind StubStorage
 
-@InjectDelegate(StubAutoDelegateImpl::class)
-interface StubAutoDelegate
+@InjectImplementation(StubAutoImplementationImpl::class)
+interface StubAutoImplementation
 
 @Inject
-class StubAutoDelegateImpl : StubAutoDelegate
+class StubAutoImplementationImpl : StubAutoImplementation
 
 @InjectProxy
 interface StubAutoProxy {
-	@InjectDelegate(StubStorageImpl::class)
+	@InjectImplementation(StubStorageImpl::class)
 	fun createStorage(): StubStorage
 }
 

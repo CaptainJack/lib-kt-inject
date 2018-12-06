@@ -53,16 +53,16 @@ class TestInjectAnnotations {
 	}
 	
 	@Test
-	fun delegate_by_InjectDelegate() {
+	fun delegate_by_InjectImplementation() {
 		val injector = injector {}
 		
-		val a = injector.get<StubAutoDelegate>()
+		val a = injector.get<StubAutoImplementation>()
 		
-		assertTrue(a is StubAutoDelegateImpl)
+		assertTrue(a is StubAutoImplementationImpl)
 	}
 	
 	@Test
-	fun proxyFactory_by_InjectProxyFactory_and_with_InjectDelegate_member() {
+	fun proxyFactory_by_InjectProxyFactory_and_with_InjectImplementation_member() {
 		val injector = injector {}
 		
 		val f = injector.get<StubAutoProxy>()
