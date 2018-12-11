@@ -3,10 +3,14 @@ package ru.capjack.kt.inject
 import ru.capjack.kt.inject.internal.BinderImpl
 import ru.capjack.kt.inject.internal.InjectorImpl
 
-class InjectorBuilder {
+class Injection() {
 	private val configurations: MutableList<Binder.() -> Unit> = mutableListOf()
 	
-	fun configure(configuration: Binder.() -> Unit): InjectorBuilder {
+	constructor(init: Binder.() -> Unit) : this() {
+		configure(init)
+	}
+	
+	fun configure(configuration: Binder.() -> Unit): Injection {
 		configurations.add(configuration)
 		return this
 	}

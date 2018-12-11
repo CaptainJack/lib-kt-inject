@@ -7,7 +7,7 @@ import kotlin.test.assertTrue
 class TestSmartProducer {
 	@Test
 	fun for_class() {
-		val injector = injector {
+		val injector = Injector {
 			registerSmartProducerForClass {
 				return@registerSmartProducerForClass if (it == StubStorage::class) StubStorageImpl() else null
 			}
@@ -20,7 +20,7 @@ class TestSmartProducer {
 	
 	@Test
 	fun for_parameter() {
-		val injector = injector {
+		val injector = Injector {
 			registerSmartProducerForParameter {
 				return@registerSmartProducerForParameter if (it.name == "storage") StubStorageImpl() else null
 			}
@@ -33,7 +33,7 @@ class TestSmartProducer {
 	
 	@Test
 	fun for_annotated_class() {
-		val injector = injector {
+		val injector = Injector {
 			registerSmartProducerForAnnotatedClass<StubClass> { _, _ ->
 				StubStorageImpl()
 			}
@@ -46,7 +46,7 @@ class TestSmartProducer {
 	
 	@Test
 	fun for_annotated_parameter() {
-		val injector = injector {
+		val injector = Injector {
 			registerSmartProducerForAnnotatedParameter<StubParameter>() { _, _ ->
 				StubStorageImpl()
 			}

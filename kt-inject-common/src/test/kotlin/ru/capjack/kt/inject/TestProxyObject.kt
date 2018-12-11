@@ -10,7 +10,7 @@ import kotlin.test.assertTrue
 class TestProxyObject {
 	@Test
 	fun check_toString() {
-		val injector = injector {}
+		val injector = Injector {}
 		val a = injector.get<StubAutoProxy>().toString()
 		
 		assertTrue(a.contains("StubAutoProxy\$Proxy"))
@@ -18,7 +18,7 @@ class TestProxyObject {
 	
 	@Test
 	fun check_hashCode_differed() {
-		val injector = injector {}
+		val injector = Injector {}
 		val a = injector.get<StubAutoProxy>().hashCode()
 		val b = injector.get<StubAutoProxy>().hashCode()
 		
@@ -27,7 +27,7 @@ class TestProxyObject {
 	
 	@Test
 	fun check_hashCode_equals() {
-		val injector = injector {
+		val injector = Injector {
 			bindProxy<StubAutoProxy>()
 		}
 		
@@ -39,7 +39,7 @@ class TestProxyObject {
 	
 	@Test
 	fun check_equals_false() {
-		val injector = injector {}
+		val injector = Injector {}
 		val a = injector.get<StubAutoProxy>().hashCode()
 		val b = injector.get<StubAutoProxy>().hashCode()
 		
@@ -49,7 +49,7 @@ class TestProxyObject {
 	
 	@Test
 	fun check_equals_true() {
-		val injector = injector {
+		val injector = Injector {
 			bindProxy<StubAutoProxy>()
 		}
 		

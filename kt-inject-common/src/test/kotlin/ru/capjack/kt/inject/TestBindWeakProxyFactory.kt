@@ -6,7 +6,7 @@ import kotlin.test.assertNotEquals
 class TestBindWeakProxyFactory {
 	@Test
 	fun typed() {
-		val injector = injector {
+		val injector = Injector {
 			bindProxySupplier<StubUserFactory> {
 				bind<StubUser, StubUserImpl>()
 			}
@@ -22,7 +22,7 @@ class TestBindWeakProxyFactory {
 	fun named() {
 		val name = stubNameFactory
 		
-		val injector = injector {
+		val injector = Injector {
 			bindProxySupplier(name) {
 				bind<StubUser, StubUserImpl>()
 			}

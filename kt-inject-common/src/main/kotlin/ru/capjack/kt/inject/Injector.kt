@@ -11,8 +11,8 @@ interface Injector {
 	fun get(parameter: KParameter): Any
 	
 	companion object {
-		operator fun invoke(strong: Boolean = true, init: InjectorBuilder.() -> Unit): Injector {
-			return InjectorBuilder().also(init).build(strong)
+		operator fun invoke(strong: Boolean = true, init: Binder.() -> Unit): Injector {
+			return Injection(init).build(strong)
 		}
 	}
 }

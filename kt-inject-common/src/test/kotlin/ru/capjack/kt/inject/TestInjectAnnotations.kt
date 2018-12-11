@@ -13,7 +13,7 @@ class TestInjectAnnotations {
 	fun dependency_from_parameter_InjectName() {
 		val name = stubNameUserId
 		
-		val injector = injector {
+		val injector = Injector {
 			bindInstance(name, 42)
 		}
 		
@@ -24,7 +24,7 @@ class TestInjectAnnotations {
 	
 	@Test
 	fun bind_by_InjectBind_on_class() {
-		val injector = injector {}
+		val injector = Injector {}
 		
 		val a = injector.get<StubAutoBindReceiver>().a
 		val b = injector.get<StubAutoBinded>()
@@ -34,7 +34,7 @@ class TestInjectAnnotations {
 	
 	@Test
 	fun bind_by_InjectBind_on_property() {
-		val injector = injector {}
+		val injector = Injector {}
 		
 		val a = injector.get<StubWithAutoBindProperty>().user
 		val b = injector.get<StubUser>()
@@ -43,8 +43,18 @@ class TestInjectAnnotations {
 	}
 	
 	@Test
-	fun delegate_by_InjectImplementation() {
+	fun bind_by_InjectBind_on_interface() {
 		val injector = injector {}
+		
+		val a = injector.get<StubAutoBindedByInterface>()
+		val b = injector.get<StubStorage>()
+		
+		assertEquals(a, b)
+	}
+	
+	@Test
+	fun delegate_by_InjectImplementation() {
+		val injector = Injector {}
 		
 		val a = injector.get<StubAutoImplementation>()
 		
@@ -53,7 +63,7 @@ class TestInjectAnnotations {
 	
 	@Test
 	fun proxyFactory_by_InjectProxyFactory_and_with_InjectImplementation_member() {
-		val injector = injector {}
+		val injector = Injector {}
 		
 		val f = injector.get<StubAutoProxy>()
 		val a = f.createStorage()
@@ -65,7 +75,7 @@ class TestInjectAnnotations {
 	
 	@Test
 	fun proxyFactory_failed_on_wrong_member_parameters() {
-		val injector = injector {}
+		val injector = Injector {}
 		
 		assertFailsWith<InjectException> {
 			injector.get<StubBadProxy>()

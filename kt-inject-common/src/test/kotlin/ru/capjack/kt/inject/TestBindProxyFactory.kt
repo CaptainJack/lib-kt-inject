@@ -8,7 +8,7 @@ import kotlin.test.assertFailsWith
 class TestBindProxyFactory {
 	@Test
 	fun typed() {
-		val injector = injector {
+		val injector = Injector {
 			bindProxy<StubUserFactory>() {
 				bind<StubUser, StubUserImpl>()
 			}
@@ -24,7 +24,7 @@ class TestBindProxyFactory {
 	fun named() {
 		val name = stubNameFactory
 		
-		val injector = injector {
+		val injector = Injector {
 			bindProxy(name) {
 				bind<StubUser, StubUserImpl>()
 			}
@@ -39,7 +39,7 @@ class TestBindProxyFactory {
 	@Test
 	fun fail_on_without_provides_declaration() {
 		
-		val injector = injector {
+		val injector = Injector {
 			bindProxy<StubUserFactory>()
 		}
 		
@@ -52,7 +52,7 @@ class TestBindProxyFactory {
 	@Test
 	fun fail_on_wrong_provides() {
 		
-		val builder = InjectorBuilder().configure {
+		val builder = Injection().configure {
 			bindProxy<StubUserFactory> {
 				bind<StubStorage, StubStorageImpl>()
 			}

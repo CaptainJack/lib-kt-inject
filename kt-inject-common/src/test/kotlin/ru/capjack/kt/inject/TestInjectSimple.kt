@@ -9,7 +9,7 @@ class TestInjectSimple {
 	
 	@Test
 	fun fail_on_not_injectable() {
-		val injector = injector {}
+		val injector = Injector {}
 		
 		assertFailsWith<InjectException> {
 			injector.get<StubNotInjectable>()
@@ -18,7 +18,7 @@ class TestInjectSimple {
 	
 	@Test
 	fun fail_on_no_dependency() {
-		val injector = injector {
+		val injector = Injector {
 			bind<StubUserManager, StubUserManagerImpl>()
 		}
 		
@@ -29,7 +29,7 @@ class TestInjectSimple {
 	
 	@Test
 	fun dependency_from_delegated() {
-		val injector = injector {
+		val injector = Injector {
 			bind<StubUserManager, StubUserManagerImpl>()
 			bind<StubStorage, StubStorageImpl>()
 		}
@@ -43,7 +43,7 @@ class TestInjectSimple {
 	fun dependency_from_instance() {
 		val storage = StubStorageImpl()
 		
-		val injector = injector {
+		val injector = Injector {
 			bind<StubUserManager, StubUserManagerImpl>()
 			bind<StubStorage>(storage)
 		}
@@ -57,7 +57,7 @@ class TestInjectSimple {
 	fun dependency_from_parameter_name() {
 		val name = stubNameStorage
 		
-		val injector = injector {
+		val injector = Injector {
 			bind<StubUserManager, StubUserManagerWithNamedStorage>()
 			bindInstance(name, StubStorageImpl())
 		}
@@ -69,7 +69,7 @@ class TestInjectSimple {
 	
 	@Test
 	fun proxy_call_with_params_simple() {
-		val injector = injector {
+		val injector = Injector {
 			bindProxy<StubUserFactory> {
 				bind<StubUser, StubUserImpl>()
 			}
@@ -84,7 +84,7 @@ class TestInjectSimple {
 	
 	@Test
 	fun proxy_call_with_params_complex() {
-		val injector = injector {
+		val injector = Injector {
 			bindProxy<StubUserFactory> { bind<StubUser, StubUserImpl>() }
 			bind<StubStorage, StubStorageImpl>()
 			bind<StubEmpty, StubEmpty>()
@@ -101,7 +101,7 @@ class TestInjectSimple {
 	
 	@Test
 	fun proxy_call_with_params_equal_types() {
-		val injector = injector {
+		val injector = Injector {
 			bindProxy<StubUserFactory> { bind<StubUser, StubUserImpl>() }
 		}
 		
@@ -115,7 +115,7 @@ class TestInjectSimple {
 	
 	@Test
 	fun proxy_call_with_params_equal_types_strange() {
-		val injector = injector {
+		val injector = Injector {
 			bindProxy<StubUserFactory> { bind<StubUser, StubUserImpl>() }
 		}
 		
@@ -129,7 +129,7 @@ class TestInjectSimple {
 	
 	@Test
 	fun proxy_call_with_params_equal_types_tangled() {
-		val injector = injector {
+		val injector = Injector {
 			bindProxy<StubUserFactory> { bind<StubUser, StubUserImpl>() }
 		}
 		
