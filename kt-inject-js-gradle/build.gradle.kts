@@ -5,12 +5,10 @@ plugins {
 	`java-gradle-plugin`
 	`maven-publish`
 	id("com.gradle.plugin-publish") version "0.10.0"
-	id("io.freefair.sources-jar")
-	id("ru.capjack.capjack-bintray")
 }
 
 dependencies {
-	implementation("ru.capjack.kt.reflect:kt-reflect-js-gradle:${ext["version.kt-reflect"]}")
+	implementation("ru.capjack.kt.reflect:kt-reflect-js-gradle:0.8.1")
 }
 
 gradlePlugin {

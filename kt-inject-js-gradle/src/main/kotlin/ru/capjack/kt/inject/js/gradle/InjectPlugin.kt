@@ -31,7 +31,7 @@ open class InjectPlugin : Plugin<Project> {
 	private fun configureDefaultVersionsResolutionStrategy(project: Project) {
 		project.configurations.forEach { configuration ->
 			configuration.resolutionStrategy.eachDependency(Action {
-				if (requested.group == Const.GROUP && requested.name == Const.ARTIFACT_LIB && requested.version.isNullOrEmpty()) {
+				if (requested.group == Const.GROUP && requested.version.isNullOrEmpty()) {
 					useVersion(VERSION)
 				}
 			})
