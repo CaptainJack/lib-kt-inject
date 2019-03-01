@@ -1,29 +1,28 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
 	`kotlin-dsl`
 	`java-gradle-plugin`
 	`maven-publish`
 	id("com.gradle.plugin-publish") version "0.10.0"
+	id("ru.capjack.kt-reflect")
 }
 
 dependencies {
-	implementation("ru.capjack.kt.reflect:kt-reflect-js-gradle:0.8.1")
+	implementation("ru.capjack.kt:kt-reflect-gradle")
 }
 
 gradlePlugin {
-	plugins.create("KtInjectJs") {
-		id = "ru.capjack.kt-inject-js"
-		implementationClass = "ru.capjack.kt.inject.js.gradle.InjectPlugin"
-		displayName = "Lib KtInjectJs"
+	plugins.create("KtInject") {
+		id = "ru.capjack.kt-inject"
+		implementationClass = "ru.capjack.kt.inject.gradle.InjectPlugin"
+		displayName = "kt-inject"
 	}
 }
 
 pluginBundle {
 	vcsUrl = "https://github.com/CaptainJack/kt-inject"
 	website = vcsUrl
-	description = "Kotlin compiler plugin for support kt-inject-js library"
-	tags = listOf("kotlin", "javascript", "inject")
+	description = "Plugin for support kt-inject library"
+	tags = listOf("capjack", "kotlin", "inject")
 }
 
 rootProject.tasks["postRelease"].dependsOn(tasks["publishPlugins"])

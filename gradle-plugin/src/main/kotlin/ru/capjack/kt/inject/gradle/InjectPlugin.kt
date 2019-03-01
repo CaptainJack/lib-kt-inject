@@ -1,17 +1,19 @@
-package ru.capjack.kt.inject.js.gradle
+package ru.capjack.kt.inject.gradle
 
 import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.configure
-import ru.capjack.kt.reflect.js.gradle.ReflectExtension
-import ru.capjack.kt.reflect.js.gradle.ReflectPlugin
-import ru.capjack.kt.reflect.js.gradle.ReflectTarget.Unit.ANNOTATIONS
-import ru.capjack.kt.reflect.js.gradle.ReflectTarget.Unit.MEMBERS
+import ru.capjack.kt.reflect.gradle.JsReflectExtension
+import ru.capjack.kt.reflect.gradle.JsReflectTarget.Unit.ANNOTATIONS
+import ru.capjack.kt.reflect.gradle.JsReflectTarget.Unit.MEMBERS
+import ru.capjack.kt.reflect.gradle.ReflectPlugin
 
 open class InjectPlugin : Plugin<Project> {
 	companion object {
+		const val ARTIFACT_GROUP = "ru.capjack.kt"
+		
 		val VERSION = this::class.java.classLoader.getResource("kt-inject-version").readText()
 	}
 	
@@ -20,7 +22,7 @@ open class InjectPlugin : Plugin<Project> {
 		
 		project.pluginManager.apply(ReflectPlugin::class)
 		
-		project.configure<ReflectExtension> {
+		project.configure<JsReflectExtension> {
 			withAnnotation("ru.capjack.kt.inject.Inject")
 			withAnnotation("ru.capjack.kt.inject.InjectBind", ANNOTATIONS)
 			withAnnotation("ru.capjack.kt.inject.InjectProxy", ANNOTATIONS, MEMBERS)
@@ -29,9 +31,9 @@ open class InjectPlugin : Plugin<Project> {
 	}
 	
 	private fun configureDefaultVersionsResolutionStrategy(project: Project) {
-		project.configurations.forEach { configuration ->
-			configuration.resolutionStrategy.eachDependency(Action {
-				if (requested.group == Const.GROUP && requested.version.isNullOrEmpty()) {
+		project.configurations.all {
+			resolutionStrategy.eachDependency(Action {
+				if (requested.group == ARTIFACT_GROUP && requested.name.startsWith("kt-inject-") && requested.version.isNullOrEmpty()) {
 					useVersion(VERSION)
 				}
 			})
