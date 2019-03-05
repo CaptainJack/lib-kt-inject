@@ -7,13 +7,13 @@ plugins {
 }
 
 dependencies {
-	implementation("ru.capjack.kt:kt-reflect-gradle")
+	implementation("ru.capjack.tool:kt-reflect-gradle")
 }
 
 gradlePlugin {
 	plugins.create("KtInject") {
 		id = "ru.capjack.kt-inject"
-		implementationClass = "ru.capjack.kt.inject.gradle.InjectPlugin"
+		implementationClass = "ru.capjack.tool.kt.inject.gradle.InjectPlugin"
 		displayName = "kt-inject"
 	}
 }
