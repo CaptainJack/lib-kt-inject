@@ -10,7 +10,7 @@ import ru.capjack.tool.reflect.gradle.JsReflectTarget.Unit.ANNOTATIONS
 import ru.capjack.tool.reflect.gradle.JsReflectTarget.Unit.MEMBERS
 import ru.capjack.tool.reflect.gradle.ReflectPlugin
 
-open class InjectPlugin : Plugin<Project> {
+open class DepinPlugin : Plugin<Project> {
 	companion object {
 		const val NAME = "tool-depin"
 		const val ARTIFACT_GROUP = "ru.capjack.tool"
@@ -23,11 +23,13 @@ open class InjectPlugin : Plugin<Project> {
 		
 		project.pluginManager.apply(ReflectPlugin::class)
 		
-		project.configure<JsReflectExtension> {
-			withAnnotation("ru.capjack.tool.depin.Inject")
-			withAnnotation("ru.capjack.tool.depin.Bind", ANNOTATIONS)
-			withAnnotation("ru.capjack.tool.depin.Proxy", ANNOTATIONS, MEMBERS)
-			withAnnotation("ru.capjack.tool.depin.Implementation", ANNOTATIONS)
+		if (ReflectPlugin.isJsApplicable(project)) {
+			project.configure<JsReflectExtension> {
+				withAnnotation("ru.capjack.tool.depin.Inject")
+				withAnnotation("ru.capjack.tool.depin.Bind", ANNOTATIONS)
+				withAnnotation("ru.capjack.tool.depin.Proxy", ANNOTATIONS, MEMBERS)
+				withAnnotation("ru.capjack.tool.depin.Implementation", ANNOTATIONS)
+			}
 		}
 	}
 	
