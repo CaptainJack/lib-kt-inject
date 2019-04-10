@@ -1,4 +1,4 @@
-rootProject.name = "kt-inject"
+rootProject.name = "tool-depin"
 
-include("kt-inject-gradle")
-project(":kt-inject-gradle").projectDir = file("gradle-plugin")
+include("tool-depin-gradle")
+project(":tool-depin-gradle").projectDir = file("gradle-plugin")

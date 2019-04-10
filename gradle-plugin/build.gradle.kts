@@ -2,27 +2,27 @@ plugins {
 	`kotlin-dsl`
 	`java-gradle-plugin`
 	`maven-publish`
-	id("com.gradle.plugin-publish") version "0.10.0"
-	id("ru.capjack.kt-reflect")
+	id("com.gradle.plugin-publish") version "0.10.1"
+	id("ru.capjack.reflect")
 }
 
 dependencies {
-	implementation("ru.capjack.tool:kt-reflect-gradle")
+	implementation("ru.capjack.tool:tool-reflect-gradle")
 }
 
 gradlePlugin {
-	plugins.create("KtInject") {
-		id = "ru.capjack.kt-inject"
-		implementationClass = "ru.capjack.tool.kt.inject.gradle.InjectPlugin"
-		displayName = "kt-inject"
+	plugins.create("Depin") {
+		id = "ru.capjack.depin"
+		implementationClass = "ru.capjack.tool.depin.gradle.DepinPlugin"
+		displayName = "ru.capjack.depin"
 	}
 }
 
 pluginBundle {
-	vcsUrl = "https://github.com/CaptainJack/kt-inject"
+	vcsUrl = "https://github.com/CaptainJack/tool-depin"
 	website = vcsUrl
-	description = "Plugin for support kt-inject library"
-	tags = listOf("capjack", "kotlin", "inject")
+	description = "Plugin for support tool-depin library"
+	tags = listOf("capjack", "kotlin", "dependency injection")
 }
 
 rootProject.tasks["postRelease"].dependsOn(tasks["publishPlugins"])

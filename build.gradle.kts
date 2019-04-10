@@ -1,15 +1,15 @@
 import org.jetbrains.kotlin.cli.common.arguments.K2JsArgumentConstants
 import org.jetbrains.kotlin.gradle.plugin.KotlinCompilation
-import ru.capjack.tool.kt.reflect.gradle.JsReflectTarget.Unit.ANNOTATIONS
-import ru.capjack.tool.kt.reflect.gradle.JsReflectTarget.Unit.MEMBERS
+import ru.capjack.tool.reflect.gradle.JsReflectTarget.Unit.ANNOTATIONS
+import ru.capjack.tool.reflect.gradle.JsReflectTarget.Unit.MEMBERS
 
 plugins {
-	kotlin("multiplatform") version "1.3.20"
-	id("nebula.release") version "9.2.0"
-	id("ru.capjack.capjack-bintray") version "0.16.0"
-	id("ru.capjack.ktjs-test") version "0.10.1"
-	id("ru.capjack.kt-logging") version "0.10.0"
-	id("ru.capjack.kt-reflect") version "0.10.0"
+	kotlin("multiplatform") version "1.3.21"
+	id("nebula.release") version "10.0.1"
+	id("ru.capjack.bintray") version "0.17.0"
+	id("ru.capjack.kojste") version "0.11.0"
+	id("ru.capjack.logging") version "0.12.1"
+	id("ru.capjack.reflect") version "0.11.0"
 }
 
 allprojects {
@@ -21,19 +21,19 @@ allprojects {
 }
 
 capjackBintray {
-	publications(":", ":kt-inject-gradle")
+	publications(":", ":tool-depin-gradle")
 }
 
-ktReflectJs {
-	withAnnotation("ru.capjack.tool.kt.inject.Inject")
-	withAnnotation("ru.capjack.tool.kt.inject.InjectBind", ANNOTATIONS)
-	withAnnotation("ru.capjack.tool.kt.inject.InjectProxy", ANNOTATIONS, MEMBERS)
-	withAnnotation("ru.capjack.tool.kt.inject.InjectImplementation", ANNOTATIONS)
+jsReflect {
+	withAnnotation("ru.capjack.tool.depin.Inject")
+	withAnnotation("ru.capjack.tool.depin.Bind", ANNOTATIONS)
+	withAnnotation("ru.capjack.tool.depin.Proxy", ANNOTATIONS, MEMBERS)
+	withAnnotation("ru.capjack.tool.depin.Implementation", ANNOTATIONS)
 	
-	withClass("ru.capjack.tool.kt.inject.StubUser")
-	withClass("ru.capjack.tool.kt.inject.StubUserFactory")
-	withClass("ru.capjack.tool.kt.inject.StubStorage")
-	withClass("ru.capjack.tool.kt.inject.StubNotInjectable")
+	withClass("ru.capjack.tool.depin.StubUser")
+	withClass("ru.capjack.tool.depin.StubUserFactory")
+	withClass("ru.capjack.tool.depin.StubStorage")
+	withClass("ru.capjack.tool.depin.StubNotInjectable")
 }
 
 kotlin {
@@ -41,8 +41,8 @@ kotlin {
 		commonMain {
 			dependencies {
 				implementation(kotlin("stdlib-common"))
-				implementation("ru.capjack.tool:kt-reflect-metadata")
-				implementation("ru.capjack.tool:kt-logging-metadata")
+				implementation("ru.capjack.tool:tool-reflect-metadata")
+				implementation("ru.capjack.tool:tool-logging-metadata")
 			}
 		}
 		commonTest {
@@ -62,8 +62,8 @@ kotlin {
 			dependencies {
 				implementation(kotlin("stdlib-jdk8"))
 				implementation(kotlin("reflect"))
-				implementation("ru.capjack.tool:kt-reflect-jvm")
-				implementation("ru.capjack.tool:kt-logging-jvm")
+				implementation("ru.capjack.tool:tool-reflect-jvm")
+				implementation("ru.capjack.tool:tool-logging-jvm")
 			}
 		}
 		
@@ -83,8 +83,8 @@ kotlin {
 		get(KotlinCompilation.MAIN_COMPILATION_NAME).defaultSourceSet {
 			dependencies {
 				implementation(kotlin("stdlib-js"))
-				implementation("ru.capjack.tool:kt-reflect-js")
-				implementation("ru.capjack.tool:kt-logging-js")
+				implementation("ru.capjack.tool:tool-reflect-js")
+				implementation("ru.capjack.tool:tool-logging-js")
 			}
 		}
 		
