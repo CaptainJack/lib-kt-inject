@@ -27,7 +27,7 @@ internal actual fun <T : Any> createProxyFactory(injector: InjectorImpl, clazz: 
 				{ injector.create(t, emptyArray()) }
 			}
 			else {
-				{ injector.create(t, a.map { it.invoke(injector, js("arguments").unsafeCast<Array<out Any>>()) }.toTypedArray()) }
+				{ injector.create(t, a.map { it.invoke(injector, js("arguments").unsafeCast<Array<Any>>()) }.toTypedArray()) }
 			}
 	}
 	

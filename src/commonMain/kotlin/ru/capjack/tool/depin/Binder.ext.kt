@@ -51,14 +51,14 @@ inline fun <reified T : Any, reified I : T> Binder.Factory.bind() =
 	bind(T::class, I::class)
 
 
-fun <A : Annotation> Binder.addSmartProducerForAnnotatedClassInject(annotationClass: KClass<A>, producer: Injector.(A, KClass<out Any>) -> Any?) =
+fun <A : Annotation> Binder.addSmartProducerForAnnotatedClassInject(annotationClass: KClass<A>, producer: Injector.(A, KClass<*>) -> Any?) =
 	addSmartProducerForClassInjected { clazz ->
 		clazz.findAnnotation(annotationClass)?.let {
 			producer(it, clazz)
 		}
 	}
 
-fun <A : Annotation> Binder.addSmartProducerForAnnotatedClass(annotationClass: KClass<A>, producer: (A, KClass<out Any>) -> Any?) =
+fun <A : Annotation> Binder.addSmartProducerForAnnotatedClass(annotationClass: KClass<A>, producer: (A, KClass<*>) -> Any?) =
 	addSmartProducerForClass { clazz ->
 		clazz.findAnnotation(annotationClass)?.let {
 			producer(it, clazz)
@@ -79,10 +79,10 @@ fun <A : Annotation> Binder.addSmartProducerForAnnotatedParameter(annotationClas
 		}
 	}
 
-inline fun <reified A : Annotation> Binder.addSmartProducerForAnnotatedClass(noinline producer: (A, KClass<out Any>) -> Any?) =
+inline fun <reified A : Annotation> Binder.addSmartProducerForAnnotatedClass(noinline producer: (A, KClass<*>) -> Any?) =
 	addSmartProducerForAnnotatedClass(A::class, producer)
 
-inline fun <reified A : Annotation> Binder.addSmartProducerForAnnotatedClassInject(noinline producer: Injector.(A, KClass<out Any>) -> Any?) =
+inline fun <reified A : Annotation> Binder.addSmartProducerForAnnotatedClassInject(noinline producer: Injector.(A, KClass<*>) -> Any?) =
 	addSmartProducerForAnnotatedClassInject(A::class, producer)
 
 

@@ -12,7 +12,7 @@ annotation class Bind
 annotation class Proxy
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
-annotation class Implementation(val type: KClass<out Any>)
+annotation class Implementation(val type: KClass<*>)
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 annotation class Name(val name: String = "")

@@ -13,7 +13,7 @@ internal fun <T : Any> KClass<T>.extractPrimaryConstructor(): KFunction<T> {
 		?: throw InjectException("Class '$this' not have constructor")
 }
 
-fun KClass<out Any>.checkClassInjectable() {
+fun KClass<*>.checkClassInjectable() {
 	if (isInterface) {
 		throw InjectException("Class '$this' is an interface and cannot be instantiated")
 	}

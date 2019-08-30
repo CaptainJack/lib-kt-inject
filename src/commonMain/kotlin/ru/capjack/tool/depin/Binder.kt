@@ -44,9 +44,9 @@ interface Binder {
 	fun <T : Any> bindProxySupplier(name: TypedName<T>, clazz: KClass<out T>, init: Factory.() -> Unit = {})
 	
 	
-	fun addSmartProducerForClass(producer: (KClass<out Any>) -> Any?)
+	fun addSmartProducerForClass(producer: (KClass<*>) -> Any?)
 	
-	fun addSmartProducerForClassInjected(producer: Injector.(KClass<out Any>) -> Any?)
+	fun addSmartProducerForClassInjected(producer: Injector.(KClass<*>) -> Any?)
 	
 	fun addSmartProducerForParameter(producer: (KParameter) -> Any?)
 	

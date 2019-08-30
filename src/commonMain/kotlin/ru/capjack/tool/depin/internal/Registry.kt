@@ -6,28 +6,28 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KParameter
 
 internal class Registry {
-	private val classBindings = createConcurrentMutableMap<KClass<out Any>, Binding<out Any>>()
-	private val nameBindings = createConcurrentMutableMap<TypedName<out Any>, Binding<out Any>>()
-	private val smartClassProducers = createConcurrentMutableCollection<Injector.(KClass<out Any>) -> Any?>()
+	private val classBindings = createConcurrentMutableMap<KClass<*>, Binding<*>>()
+	private val nameBindings = createConcurrentMutableMap<TypedName<*>, Binding<*>>()
+	private val smartClassProducers = createConcurrentMutableCollection<Injector.(KClass<*>) -> Any?>()
 	private val smartParameterProducers = createConcurrentMutableCollection<Injector.(KParameter) -> Any?>()
 	
-	fun hasBinding(clazz: KClass<out Any>): Boolean {
+	fun hasBinding(clazz: KClass<*>): Boolean {
 		return classBindings.containsKey(clazz)
 	}
 	
-	fun hasBinding(name: TypedName<out Any>): Boolean {
+	fun hasBinding(name: TypedName<*>): Boolean {
 		return nameBindings.containsKey(name)
 	}
 	
-	fun setBinding(clazz: KClass<out Any>, binding: Binding<out Any>) {
+	fun setBinding(clazz: KClass<*>, binding: Binding<*>) {
 		classBindings[clazz] = binding
 	}
 	
-	fun setBinding(name: TypedName<out Any>, binding: Binding<out Any>) {
+	fun setBinding(name: TypedName<*>, binding: Binding<*>) {
 		nameBindings[name] = binding
 	}
 	
-	fun addSmartProducerForClass(producer: Injector.(KClass<out Any>) -> Any?) {
+	fun addSmartProducerForClass(producer: Injector.(KClass<*>) -> Any?) {
 		smartClassProducers.add(producer)
 	}
 	
@@ -45,7 +45,7 @@ internal class Registry {
 		return nameBindings[name] as Binding<T>?
 	}
 	
-	fun trySmartProduce(injector: Injector, clazz: KClass<out Any>): Any? {
+	fun trySmartProduce(injector: Injector, clazz: KClass<*>): Any? {
 		for (producer in smartClassProducers) {
 			producer(injector, clazz)?.let {
 				return it
