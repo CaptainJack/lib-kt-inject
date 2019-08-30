@@ -1,3 +1,5 @@
+@file:Suppress("UNUSED_PARAMETER", "unused")
+
 package ru.capjack.tool.depin
 
 val stubNameEmpty = "empty".asType<StubEmpty>()
@@ -89,3 +91,15 @@ interface StubAutoProxy {
 interface StubBadProxy {
 	fun createStorage(value: Int): StubEmpty
 }
+
+@Inject
+class StubCircularA(b: StubCircularB)
+
+@Implementation(StubCircularBImpl::class)
+interface StubCircularB
+
+@Inject
+class StubCircularBImpl(c: StubCircularC)
+
+@Inject
+class StubCircularC(a: StubCircularA)

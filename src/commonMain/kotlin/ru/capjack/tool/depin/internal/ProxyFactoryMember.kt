@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 
-internal typealias ProxyFactoryMemberArgument = (Injector, Array<Any>) -> Any
+internal typealias ProxyFactoryMemberArgument = (Injector, Array<*>) -> Any?
 
 internal class ProxyFactoryMember(
 	var clazz: KClass<*>,

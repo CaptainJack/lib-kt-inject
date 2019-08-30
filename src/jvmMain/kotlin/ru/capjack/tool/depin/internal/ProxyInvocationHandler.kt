@@ -1,5 +1,6 @@
 package ru.capjack.tool.depin.internal
 
+import ru.capjack.tool.depin.InjectException
 import java.lang.reflect.InvocationHandler
 import java.lang.reflect.Method
 import kotlin.reflect.jvm.javaMethod
@@ -15,16 +16,12 @@ internal class ProxyInvocationHandler(
 	}
 	
 	override fun invoke(proxy: Any, method: Method, args: Array<Any>?): Any {
-		val m = methods[method]
-		
-		return when (m) {
+		return when (val m = methods[method]) {
 			null -> when (method.name) {
 				"toString" -> "$typeName\$Proxy"
 				"equals"   -> proxy === args!![0]
 				"hashCode" -> hashCode()
-				else       -> {
-					throw UnsupportedOperationException("Unsupported method $method")
-				}
+				else       -> throw InjectException("Unsupported method $method")
 			}
 			else -> m.invoke(args ?: emptyArray())
 		}
@@ -36,9 +33,7 @@ internal class ProxyInvocationHandler(
 		private val arguments = method.compileArguments()
 		
 		fun invoke(receivedArgs: Array<Any>): Any {
-			val list = arguments.map { it.invoke(injector, receivedArgs) }
-			
-			return injector.produce(clazz, list.toTypedArray())
+			return injector.produce(clazz, arguments, receivedArgs)
 		}
 	}
 	

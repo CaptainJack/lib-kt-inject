@@ -18,7 +18,7 @@ internal class FactoryBuilder<T : Any>(
 		if (it is KFunction<*>)
 			ProxyFactoryMember(clazz, it, it.findAnnotation<Implementation>()?.type ?: it.returnTypeRef.kClass)
 		else
-			throw RuntimeException("Only function allowed for proxy")
+			throw InjectException("Only function allowed for proxy")
 	}
 	
 	override fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>): Binder.Factory {

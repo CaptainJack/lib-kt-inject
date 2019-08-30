@@ -2,9 +2,10 @@ package ru.capjack.tool.depin.internal
 
 import ru.capjack.tool.depin.Bind
 import ru.capjack.tool.depin.Implementation
+import ru.capjack.tool.depin.InjectException
+import ru.capjack.tool.depin.Injector
 import ru.capjack.tool.depin.Name
 import ru.capjack.tool.depin.Proxy
-import ru.capjack.tool.depin.Injector
 import ru.capjack.tool.depin.TypedName
 import ru.capjack.tool.depin.internal.bindings.InstanceBinding
 import ru.capjack.tool.depin.internal.bindings.MemberBinding
@@ -13,6 +14,7 @@ import ru.capjack.tool.logging.getLogger
 import ru.capjack.tool.logging.trace
 import ru.capjack.tool.reflect.*
 import kotlin.reflect.KClass
+import kotlin.reflect.KFunction
 import kotlin.reflect.KParameter
 
 internal class InjectorImpl : Injector {
@@ -20,6 +22,7 @@ internal class InjectorImpl : Injector {
 	val registry = Registry()
 	
 	private val logger = Logging.getLogger<Injector>()
+	private val producingStack = ProducingStack()
 	
 	override fun <T : Any> get(clazz: KClass<T>): T {
 		logger.trace { "Getting '$clazz'" }
@@ -34,7 +37,7 @@ internal class InjectorImpl : Injector {
 	override fun <T : Any> get(name: TypedName<T>): T {
 		logger.trace { "Getting '$name'" }
 		
-		val binding = registry.getBinding(name) ?: throw NoSuchElementException("Binding for '$name' is not defined")
+		val binding = registry.getBinding(name) ?: throw InjectException("Binding for '$name' is not defined")
 		
 		return binding.get()
 	}
@@ -109,20 +112,38 @@ internal class InjectorImpl : Injector {
 		return produce(clazz)
 	}
 	
-	fun <T : Any> produce(clazz: KClass<T>, withArgs: Array<Any>? = null): T {
+	fun <T : Any> produce(clazz: KClass<T>): T {
+		return produce(clazz) {
+			it.valueParameters.map(::get)
+		}
+	}
+	
+	fun <T : Any> produce(clazz: KClass<T>, argFactories: List<ProxyFactoryMemberArgument>, incomingArgs: Array<*>): T {
+		return produce(clazz) {
+			argFactories.map { it.invoke(this, incomingArgs) }
+		}
+	}
+	
+	private inline fun <T : Any> produce(clazz: KClass<T>, argsExtractor: (KFunction<T>) -> List<*>): T {
 		logger.trace { "Produce '$clazz'" }
 		
 		clazz.checkClassInjectable()
 		
+		val circular = producingStack.contains(clazz)
+		producingStack.add(clazz)
+		
+		if (circular) {
+			throw InjectException("Circular dependency:\n" + producingStack.joinToString("\n") { " - $it" })
+		}
+		
 		registry.observeProduce(clazz)
 		
 		val constructor = clazz.primaryConstructor!!
+		val args = argsExtractor(constructor)
 		
-		val args = withArgs
-			?: constructor.valueParameters.map(::get).toTypedArray()
+		val obj = constructor.callRef(*args.toTypedArray())
 		
-		val obj = constructor.callRef(*args)
-		
+		producingStack.remove()
 		registry.observeProduce(clazz, obj)
 		
 		return obj

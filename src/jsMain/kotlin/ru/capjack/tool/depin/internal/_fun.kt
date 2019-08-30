@@ -24,10 +24,10 @@ internal actual fun <T : Any> createProxyFactory(injector: InjectorImpl, clazz: 
 		val a = m.compileArguments()
 		proxyClass.prototype[m.member.accessName] =
 			if (a.isEmpty()) {
-				{ injector.produce(t, emptyArray()) }
+				{ injector.produce(t) }
 			}
 			else {
-				{ injector.produce(t, a.map { it.invoke(injector, js("arguments").unsafeCast<Array<Any>>()) }.toTypedArray()) }
+				{ injector.produce(t, a, js("arguments").unsafeCast<Array<Any>>()) }
 			}
 	}
 	
