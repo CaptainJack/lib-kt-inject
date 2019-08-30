@@ -119,19 +119,19 @@ internal class BinderImpl(
 	}
 	
 	
-	override fun registerSmartProducerForClass(producer: (KClass<out Any>) -> Any?) {
-		registerSmartProducerForClassInjected { it -> producer(it) }
+	override fun addSmartProducerForClass(producer: (KClass<out Any>) -> Any?) {
+		addSmartProducerForClassInjected { it -> producer(it) }
 	}
 	
-	override fun registerSmartProducerForClassInjected(producer: Injector.(KClass<out Any>) -> Any?) {
+	override fun addSmartProducerForClassInjected(producer: Injector.(KClass<out Any>) -> Any?) {
 		injector.registry.addSmartProducerForClass(producer)
 	}
 	
-	override fun registerSmartProducerForParameter(producer: (KParameter) -> Any?) {
-		registerSmartProducerForParameterInjected { it -> producer(it) }
+	override fun addSmartProducerForParameter(producer: (KParameter) -> Any?) {
+		addSmartProducerForParameterInjected { it -> producer(it) }
 	}
 	
-	override fun registerSmartProducerForParameterInjected(producer: Injector.(KParameter) -> Any?) {
+	override fun addSmartProducerForParameterInjected(producer: Injector.(KParameter) -> Any?) {
 		injector.registry.addSmartProducerForParameter(producer)
 	}
 	

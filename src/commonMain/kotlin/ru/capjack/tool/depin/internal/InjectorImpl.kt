@@ -52,7 +52,7 @@ internal class InjectorImpl : Injector {
 			return get(TypedName(type, n))
 		}
 		
-		registry.tryProduce(this, parameter)?.let {
+		registry.trySmartProduce(this, parameter)?.let {
 			logger.trace { "Supplied parameter '$name' from smart producer" }
 			return it
 		}
@@ -100,7 +100,7 @@ internal class InjectorImpl : Injector {
 			return FactoryBuilder(clazz).build(this)
 		}
 		
-		registry.tryProduce(this, clazz)?.let {
+		registry.trySmartProduce(this, clazz)?.let {
 			logger.trace { "Supplied '$clazz' from smart producer" }
 			@Suppress("UNCHECKED_CAST")
 			return it as T

@@ -45,7 +45,7 @@ internal class Registry {
 		return nameBindings[name] as Binding<T>?
 	}
 	
-	fun tryProduce(injector: Injector, clazz: KClass<out Any>): Any? {
+	fun trySmartProduce(injector: Injector, clazz: KClass<out Any>): Any? {
 		for (producer in smartClassProducers) {
 			producer(injector, clazz)?.let {
 				return it
@@ -54,7 +54,7 @@ internal class Registry {
 		return null
 	}
 	
-	fun tryProduce(injector: Injector, parameter: KParameter): Any? {
+	fun trySmartProduce(injector: Injector, parameter: KParameter): Any? {
 		for (producer in smartParameterProducers) {
 			producer(injector, parameter)?.let {
 				return it

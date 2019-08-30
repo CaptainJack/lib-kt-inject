@@ -8,8 +8,8 @@ class TestSmartProducer {
 	@Test
 	fun for_class() {
 		val injector = Injector {
-			registerSmartProducerForClass {
-				return@registerSmartProducerForClass if (it == StubStorage::class) StubStorageImpl() else null
+			addSmartProducerForClass {
+				return@addSmartProducerForClass if (it == StubStorage::class) StubStorageImpl() else null
 			}
 		}
 		
@@ -21,8 +21,8 @@ class TestSmartProducer {
 	@Test
 	fun for_parameter() {
 		val injector = Injector {
-			registerSmartProducerForParameter {
-				return@registerSmartProducerForParameter if (it.name == "storage") StubStorageImpl() else null
+			addSmartProducerForParameter {
+				return@addSmartProducerForParameter if (it.name == "storage") StubStorageImpl() else null
 			}
 		}
 		
@@ -34,7 +34,7 @@ class TestSmartProducer {
 	@Test
 	fun for_annotated_class() {
 		val injector = Injector {
-			registerSmartProducerForAnnotatedClass<StubClass> { _, _ ->
+			addSmartProducerForAnnotatedClass<StubClass> { _, _ ->
 				StubStorageImpl()
 			}
 		}
@@ -47,7 +47,7 @@ class TestSmartProducer {
 	@Test
 	fun for_annotated_parameter() {
 		val injector = Injector {
-			registerSmartProducerForAnnotatedParameter<StubParameter>() { _, _ ->
+			addSmartProducerForAnnotatedParameter<StubParameter>() { _, _ ->
 				StubStorageImpl()
 			}
 		}
