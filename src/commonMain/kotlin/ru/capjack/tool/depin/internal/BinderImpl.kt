@@ -136,6 +136,14 @@ internal class BinderImpl(
 	}
 	
 	
+	override fun addProduceObserverBefore(observer: (KClass<*>) -> Unit) {
+		injector.registry.addProduceObserver(observer)
+	}
+	
+	override fun addProduceObserverAfter(observer: (KClass<*>, Any) -> Unit) {
+		injector.registry.addProduceObserver(observer)
+	}
+	
 	private fun check(type: KClass<*>) {
 		if (strong && injector.registry.hasBinding(type)) {
 			throw InjectException("Type '$type' is already binded")

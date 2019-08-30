@@ -53,6 +53,11 @@ interface Binder {
 	fun addSmartProducerForParameterInjected(producer: Injector.(KParameter) -> Any?)
 	
 	
+	fun addProduceObserverBefore(observer: (KClass<*>) -> Unit)
+	
+	fun addProduceObserverAfter(observer: (KClass<*>, Any) -> Unit)
+	
+	
 	interface Factory {
 		fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>): Factory
 	}

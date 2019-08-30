@@ -1,6 +1,7 @@
 package ru.capjack.tool.depin
 
 import ru.capjack.tool.reflect.findAnnotation
+import ru.capjack.tool.reflect.isSubclassOf
 import kotlin.reflect.KClass
 import kotlin.reflect.KParameter
 
@@ -91,3 +92,20 @@ inline fun <reified A : Annotation> Binder.addSmartProducerForAnnotatedParameter
 
 inline fun <reified A : Annotation> Binder.addSmartProducerForAnnotatedParameterInject(noinline producer: (Injector, A, KParameter) -> Any?) =
 	addSmartProducerForAnnotatedParameterInject(A::class, producer)
+
+
+inline fun <reified T : Any> Binder.addProduceObserverBefore(crossinline observer: (KClass<out T>) -> Unit) =
+	addProduceObserverBefore { clazz ->
+		if (clazz.isSubclassOf(T::class)) {
+			@Suppress("UNCHECKED_CAST")
+			observer(clazz as KClass<out T>)
+		}
+	}
+
+inline fun <reified T : Any> Binder.addProduceObserverAfter(crossinline observer: (KClass<out T>, T) -> Unit) =
+	addProduceObserverAfter { clazz, obj ->
+		if (clazz.isSubclassOf(T::class)) {
+			@Suppress("UNCHECKED_CAST")
+			observer(clazz as KClass<out T>, obj as T)
+		}
+	}

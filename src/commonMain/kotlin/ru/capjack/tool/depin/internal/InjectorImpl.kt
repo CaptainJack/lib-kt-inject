@@ -106,19 +106,25 @@ internal class InjectorImpl : Injector {
 			return it as T
 		}
 		
-		return create(clazz)
+		return produce(clazz)
 	}
 	
-	fun <T : Any> create(clazz: KClass<T>, withArgs: Array<Any>? = null): T {
-		logger.trace { "Creating '$clazz'" }
+	fun <T : Any> produce(clazz: KClass<T>, withArgs: Array<Any>? = null): T {
+		logger.trace { "Produce '$clazz'" }
 		
 		clazz.checkClassInjectable()
+		
+		registry.observeProduce(clazz)
 		
 		val constructor = clazz.primaryConstructor!!
 		
 		val args = withArgs
 			?: constructor.valueParameters.map(::get).toTypedArray()
 		
-		return constructor.callRef(*args)
+		val obj = constructor.callRef(*args)
+		
+		registry.observeProduce(clazz, obj)
+		
+		return obj
 	}
 }

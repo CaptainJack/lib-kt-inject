@@ -38,7 +38,7 @@ internal class ProxyInvocationHandler(
 		fun invoke(receivedArgs: Array<Any>): Any {
 			val list = arguments.map { it.invoke(injector, receivedArgs) }
 			
-			return injector.create(clazz, list.toTypedArray())
+			return injector.produce(clazz, list.toTypedArray())
 		}
 	}
 	

@@ -7,7 +7,7 @@ plugins {
 	id("ru.capjack.depver") version "1.0.0"
 	id("ru.capjack.bintray") version "1.0.0"
 	id("ru.capjack.logging") version "1.0.0"
-	id("ru.capjack.reflect") version "1.0.0"
+	id("ru.capjack.reflect") version "1.1.0-dev.1+8b92ecd"
 }
 
 allprojects {

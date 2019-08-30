@@ -10,6 +10,9 @@ internal class Registry {
 	private val nameBindings = createConcurrentMutableMap<TypedName<*>, Binding<*>>()
 	private val smartClassProducers = createConcurrentMutableCollection<Injector.(KClass<*>) -> Any?>()
 	private val smartParameterProducers = createConcurrentMutableCollection<Injector.(KParameter) -> Any?>()
+	private val produceObserversBefore = createConcurrentMutableCollection<(KClass<*>) -> Unit>()
+	private val produceObserversAfter = createConcurrentMutableCollection<(KClass<*>, Any) -> Unit>()
+	
 	
 	fun hasBinding(clazz: KClass<*>): Boolean {
 		return classBindings.containsKey(clazz)
@@ -33,6 +36,14 @@ internal class Registry {
 	
 	fun addSmartProducerForParameter(producer: Injector.(KParameter) -> Any?) {
 		smartParameterProducers.add(producer)
+	}
+	
+	fun addProduceObserver(observer: (KClass<*>) -> Unit) {
+		produceObserversBefore.add(observer)
+	}
+	
+	fun addProduceObserver(observer: (KClass<*>, Any) -> Unit) {
+		produceObserversAfter.add(observer)
 	}
 	
 	fun <T : Any> getBinding(clazz: KClass<T>): Binding<T>? {
@@ -61,5 +72,13 @@ internal class Registry {
 			}
 		}
 		return null
+	}
+	
+	fun observeProduce(clazz: KClass<*>) {
+		produceObserversBefore.forEach { it(clazz) }
+	}
+	
+	fun observeProduce(clazz: KClass<*>, obj: Any) {
+		produceObserversAfter.forEach { it(clazz, obj) }
 	}
 }
