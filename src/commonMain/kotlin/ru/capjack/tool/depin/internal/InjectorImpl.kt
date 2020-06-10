@@ -4,9 +4,9 @@ import ru.capjack.tool.depin.Bind
 import ru.capjack.tool.depin.Implementation
 import ru.capjack.tool.depin.InjectException
 import ru.capjack.tool.depin.Injector
-import ru.capjack.tool.depin.Name
+import ru.capjack.tool.depin.Named
+import ru.capjack.tool.depin.NamedType
 import ru.capjack.tool.depin.Proxy
-import ru.capjack.tool.depin.TypedName
 import ru.capjack.tool.depin.internal.bindings.InstanceBinding
 import ru.capjack.tool.depin.internal.bindings.MemberBinding
 import ru.capjack.tool.logging.Logging
@@ -34,7 +34,7 @@ internal class InjectorImpl : Injector {
 			?: make(clazz)
 	}
 	
-	override fun <T : Any> get(name: TypedName<T>): T {
+	override fun <T : Any> get(name: NamedType<T>): T {
 		logger.trace { "Getting '$name'" }
 		
 		val binding = registry.getBinding(name) ?: throw InjectException("Binding for '$name' is not defined")
@@ -46,13 +46,13 @@ internal class InjectorImpl : Injector {
 		val name = parameter.name!!
 		val type = parameter.typeRef.kClass
 		
-		parameter.findAnnotation<Name>()?.let {
-			logger.trace { "Supple parameter '$name' by name" }
+		parameter.findAnnotation<Named>()?.let {
 			val n = if (it.name.isEmpty())
 				name
 			else
 				it.name
-			return get(TypedName(type, n))
+			logger.trace { "Supple parameter '$name' by name '$n'" }
+			return get(NamedType(type, n))
 		}
 		
 		registry.trySmartProduce(this, parameter)?.let {
@@ -67,24 +67,41 @@ internal class InjectorImpl : Injector {
 	
 	fun <T : Any> make(clazz: KClass<T>): T {
 		val obj = supple(clazz)
+		val binding = InstanceBinding(obj)
 		
-		if (clazz.hasAnnotation<Bind>()) {
-			logger.trace { "Bind self '$clazz'" }
-			registry.setBinding(clazz, InstanceBinding(obj))
+		clazz.findAnnotation<Bind>()?.also {
+			if (it.name.isEmpty()) {
+				logger.trace { "Bind self '$clazz'" }
+				registry.setBinding(clazz, binding)
+			}
+			else {
+				logger.trace { "Bind self '$clazz' by name '${it.name}'" }
+				registry.setBinding(NamedType(clazz, it.name), binding)
+			}
+		}
+		
+		clazz.getSupertypesWithAnnotation<Bind>().forEach {
+			//TODO Bind by name
+			logger.trace { "Bind self '$clazz' as '$it'" }
+			registry.setBinding(it, binding)
 		}
 		
 		clazz.publicDeclaredMembers
 			.filter { it.hasAnnotation<Bind>() }
 			.forEach {
 				val t = it.returnTypeRef.kClass
-				logger.trace { "Bind member '$clazz.${it.name}' as '$t'" }
-				registry.setBinding(t, MemberBinding<T>(obj, it))
+				val a = it.findAnnotation<Bind>()!!
+				val b = MemberBinding<T>(obj, it)
+				
+				if (a.name.isEmpty()) {
+					logger.trace { "Bind member '$clazz.${it.name}' as '$t'" }
+					registry.setBinding(t, b)
+				}
+				else {
+					logger.trace { "Bind member '$clazz.${it.name}' as '$t' by name '${a.name}'" }
+					registry.setBinding(NamedType(t, a.name), b)
+				}
 			}
-		
-		clazz.getSupertypesWithAnnotation<Bind>().forEach {
-			logger.trace { "Bind self '$clazz' as '$it'" }
-			registry.setBinding(it, InstanceBinding(obj))
-		}
 		
 		return obj
 	}
@@ -100,7 +117,7 @@ internal class InjectorImpl : Injector {
 		
 		if (clazz.hasAnnotation<Proxy>()) {
 			logger.trace { "Supple '$clazz' as proxy factory" }
-			return FactoryBuilder(clazz).build(this)
+			return ProxyFactoryBuilder(clazz).build(this)
 		}
 		
 		registry.trySmartProduce(this, clazz)?.let {

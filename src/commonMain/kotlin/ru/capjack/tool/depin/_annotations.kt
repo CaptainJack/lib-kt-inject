@@ -6,7 +6,7 @@ import kotlin.reflect.KClass
 annotation class Inject
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY)
-annotation class Bind
+annotation class Bind(val name: String = "")
 
 @Target(AnnotationTarget.CLASS)
 annotation class Proxy
@@ -15,4 +15,4 @@ annotation class Proxy
 annotation class Implementation(val type: KClass<*>)
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class Name(val name: String = "")
+annotation class Named(val name: String = "")

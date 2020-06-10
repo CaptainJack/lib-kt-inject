@@ -2,10 +2,10 @@
 
 package ru.capjack.tool.depin
 
-val stubNameEmpty = "empty".asType<StubEmpty>()
-val stubNameStorage = "storage".asType<StubStorage>()
-val stubNameFactory = "factory".asType<StubUserFactory>()
-val stubNameUserId = "userId".asType<Int>()
+val stubNameEmpty = "empty".asNamedType<StubEmpty>()
+val stubNameStorage = "storage".asNamedType<StubStorage>()
+val stubNameFactory = "factory".asNamedType<StubUserFactory>()
+val stubNameUserId = "userId".asNamedType<Int>()
 
 annotation class StubClass
 annotation class StubParameter
@@ -27,7 +27,7 @@ interface StubUser {
 
 @Inject
 open class StubUserImpl(
-	@Name("userId")
+	@Named("userId")
 	override val id: Int
 ) : StubUser
 
@@ -57,7 +57,7 @@ interface StubUserManager {
 class StubUserManagerImpl(@StubParameter override val storage: StubStorage) : StubUserManager
 
 @Inject
-class StubUserManagerWithNamedStorage(@Name override val storage: StubStorage) : StubUserManager
+class StubUserManagerWithNamedStorage(@Named override val storage: StubStorage) : StubUserManager
 
 @Inject
 @Bind

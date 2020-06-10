@@ -28,27 +28,27 @@ inline fun <reified T : Any> Binder.bindSupplierInjected(noinline producer: Inje
 	bindSupplierInjected(T::class, producer)
 
 
-inline fun <T : Any, reified D : T> Binder.bind(name: TypedName<T>) =
+inline fun <T : Any, reified D : T> Binder.bind(name: NamedType<T>) =
 	bind(name, D::class)
 
-inline fun <T : Any, reified D : T> Binder.bindSupplier(name: TypedName<T>) =
+inline fun <T : Any, reified D : T> Binder.bindSupplier(name: NamedType<T>) =
 	bindSupplier(name, D::class)
 
 
-inline fun <reified T : Any> Binder.bindProxy(noinline init: Binder.Factory.() -> Unit = {}) =
+inline fun <reified T : Any> Binder.bindProxy(noinline init: Binder.Proxy.() -> Unit = {}) =
 	bindProxy(T::class, init)
 
-inline fun <reified T : Any> Binder.bindProxySupplier(noinline init: Binder.Factory.() -> Unit = {}) =
+inline fun <reified T : Any> Binder.bindProxySupplier(noinline init: Binder.Proxy.() -> Unit = {}) =
 	bindProxySupplier(T::class, init)
 
 
-inline fun <T : Any, reified F : T> Binder.bindProxy(name: TypedName<T>, noinline init: Binder.Factory.() -> Unit = {}) =
+inline fun <T : Any, reified F : T> Binder.bindProxy(name: NamedType<T>, noinline init: Binder.Proxy.() -> Unit = {}) =
 	bindProxy(name, F::class, init)
 
-inline fun <T : Any, reified F : T> Binder.bindProxySupplier(name: TypedName<T>, noinline init: Binder.Factory.() -> Unit = {}) =
+inline fun <T : Any, reified F : T> Binder.bindProxySupplier(name: NamedType<T>, noinline init: Binder.Proxy.() -> Unit = {}) =
 	bindProxySupplier(name, F::class, init)
 
-inline fun <reified T : Any, reified I : T> Binder.Factory.bind() =
+inline fun <reified T : Any, reified I : T> Binder.Proxy.bind() =
 	bind(T::class, I::class)
 
 

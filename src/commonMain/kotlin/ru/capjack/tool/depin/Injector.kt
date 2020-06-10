@@ -6,7 +6,7 @@ import kotlin.reflect.KParameter
 interface Injector {
 	fun <T : Any> get(clazz: KClass<T>): T
 	
-	fun <T : Any> get(name: TypedName<T>): T
+	fun <T : Any> get(name: NamedType<T>): T
 	
 	fun get(parameter: KParameter): Any
 	

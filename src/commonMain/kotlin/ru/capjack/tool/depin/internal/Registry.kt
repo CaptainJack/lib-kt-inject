@@ -1,13 +1,13 @@
 package ru.capjack.tool.depin.internal
 
 import ru.capjack.tool.depin.Injector
-import ru.capjack.tool.depin.TypedName
+import ru.capjack.tool.depin.NamedType
 import kotlin.reflect.KClass
 import kotlin.reflect.KParameter
 
 internal class Registry {
 	private val classBindings = createConcurrentMutableMap<KClass<*>, Binding<*>>()
-	private val nameBindings = createConcurrentMutableMap<TypedName<*>, Binding<*>>()
+	private val nameBindings = createConcurrentMutableMap<NamedType<*>, Binding<*>>()
 	private val smartClassProducers = createConcurrentMutableCollection<Injector.(KClass<*>) -> Any?>()
 	private val smartParameterProducers = createConcurrentMutableCollection<Injector.(KParameter) -> Any?>()
 	private val produceObserversBefore = createConcurrentMutableCollection<(KClass<*>) -> Unit>()
@@ -18,7 +18,7 @@ internal class Registry {
 		return classBindings.containsKey(clazz)
 	}
 	
-	fun hasBinding(name: TypedName<*>): Boolean {
+	fun hasBinding(name: NamedType<*>): Boolean {
 		return nameBindings.containsKey(name)
 	}
 	
@@ -26,7 +26,7 @@ internal class Registry {
 		classBindings[clazz] = binding
 	}
 	
-	fun setBinding(name: TypedName<*>, binding: Binding<*>) {
+	fun setBinding(name: NamedType<*>, binding: Binding<*>) {
 		nameBindings[name] = binding
 	}
 	
@@ -51,7 +51,7 @@ internal class Registry {
 		return classBindings[clazz] as Binding<T>?
 	}
 	
-	fun <T : Any> getBinding(name: TypedName<T>): Binding<T>? {
+	fun <T : Any> getBinding(name: NamedType<T>): Binding<T>? {
 		@Suppress("UNCHECKED_CAST")
 		return nameBindings[name] as Binding<T>?
 	}

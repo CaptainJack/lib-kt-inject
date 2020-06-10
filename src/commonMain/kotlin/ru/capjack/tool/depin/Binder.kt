@@ -19,29 +19,29 @@ interface Binder {
 	fun <T : Any> bindSupplierInjected(clazz: KClass<T>, function: Injector.() -> T)
 	
 	
-	fun <T : Any> bindInstance(name: TypedName<T>, instance: T)
+	fun <T : Any> bindInstance(name: NamedType<T>, instance: T)
 	
-	fun <T : Any> bind(name: TypedName<T>, implementation: KClass<out T>)
+	fun <T : Any> bind(name: NamedType<T>, implementation: KClass<out T>)
 	
-	fun <T : Any> bind(name: TypedName<T>, producer: () -> T)
+	fun <T : Any> bind(name: NamedType<T>, producer: () -> T)
 	
-	fun <T : Any> bindInjected(name: TypedName<T>, producer: Injector.() -> T)
+	fun <T : Any> bindInjected(name: NamedType<T>, producer: Injector.() -> T)
 	
-	fun <T : Any> bindSupplier(name: TypedName<T>, implementation: KClass<out T>)
+	fun <T : Any> bindSupplier(name: NamedType<T>, implementation: KClass<out T>)
 	
-	fun <T : Any> bindSupplier(name: TypedName<T>, producer: () -> T)
+	fun <T : Any> bindSupplier(name: NamedType<T>, producer: () -> T)
 	
-	fun <T : Any> bindSupplierInjected(name: TypedName<T>, producer: Injector.() -> T)
-	
-	
-	fun <T : Any> bindProxy(clazz: KClass<T>, init: Factory.() -> Unit = {})
-	
-	fun <T : Any> bindProxySupplier(clazz: KClass<T>, init: Factory.() -> Unit = {})
+	fun <T : Any> bindSupplierInjected(name: NamedType<T>, producer: Injector.() -> T)
 	
 	
-	fun <T : Any> bindProxy(name: TypedName<T>, clazz: KClass<out T>, init: Factory.() -> Unit = {})
+	fun <T : Any> bindProxy(clazz: KClass<T>, init: Proxy.() -> Unit = {})
 	
-	fun <T : Any> bindProxySupplier(name: TypedName<T>, clazz: KClass<out T>, init: Factory.() -> Unit = {})
+	fun <T : Any> bindProxySupplier(clazz: KClass<T>, init: Proxy.() -> Unit = {})
+	
+	
+	fun <T : Any> bindProxy(name: NamedType<T>, clazz: KClass<out T>, init: Proxy.() -> Unit = {})
+	
+	fun <T : Any> bindProxySupplier(name: NamedType<T>, clazz: KClass<out T>, init: Proxy.() -> Unit = {})
 	
 	
 	fun addSmartProducerForClass(producer: (KClass<*>) -> Any?)
@@ -58,7 +58,7 @@ interface Binder {
 	fun addProduceObserverAfter(observer: (KClass<*>, Any) -> Unit)
 	
 	
-	interface Factory {
-		fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>): Factory
+	interface Proxy {
+		fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>): Proxy
 	}
 }

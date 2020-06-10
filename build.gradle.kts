@@ -2,11 +2,11 @@ import ru.capjack.tool.reflect.gradle.JsReflectTarget.Unit.ANNOTATIONS
 import ru.capjack.tool.reflect.gradle.JsReflectTarget.Unit.MEMBERS
 
 plugins {
-	kotlin("multiplatform") version "1.3.50"
-	id("nebula.release") version "11.1.0"
+	kotlin("multiplatform") version "1.3.71"
+	id("nebula.release") version "14.1.1"
 	id("ru.capjack.depver") version "1.0.0"
 	id("ru.capjack.bintray") version "1.0.0"
-	id("ru.capjack.logging") version "1.0.0"
+	id("ru.capjack.logging") version "1.1.0"
 	id("ru.capjack.reflect") version "1.1.0"
 }
 
@@ -37,10 +37,7 @@ kotlin {
 	}
 	js {
 		browser()
-		compilations["main"].kotlinOptions {
-			sourceMap = true
-			sourceMapEmbedSources = "always"
-		}
+		compilations.all { kotlinOptions.sourceMap = false }
 	}
 	
 	sourceSets {

@@ -14,7 +14,7 @@ inline fun <reified T : Any> Injector.get(name: String): T {
 }
 
 fun <T : Any> Injector.get(type: KClass<T>, name: String): T {
-	return get(TypedName(type, name))
+	return get(NamedType(type, name))
 }
 
 fun <T> Injector.inject(callable: KCallable<T>): (target: Any) -> T {

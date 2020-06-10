@@ -2,7 +2,7 @@ plugins {
 	kotlin("jvm")
 	`java-gradle-plugin`
 	`maven-publish`
-	id("com.gradle.plugin-publish") version "0.10.1"
+	id("com.gradle.plugin-publish") version "0.11.0"
 	id("ru.capjack.bintray")
 }
 
@@ -11,8 +11,8 @@ repositories {
 }
 
 dependencies {
-	compileOnly("ru.capjack.gradle:gradle-depver:0.2.0")
-	implementation("ru.capjack.tool:tool-reflect-gradle:0.12.0")
+	compileOnly("ru.capjack.gradle:gradle-depver:1.0.0")
+	implementation("ru.capjack.tool:tool-reflect-gradle:1.1.0")
 }
 
 gradlePlugin {

@@ -3,7 +3,7 @@ package ru.capjack.tool.depin.internal
 import ru.capjack.tool.depin.Binder
 import ru.capjack.tool.depin.InjectException
 import ru.capjack.tool.depin.Injector
-import ru.capjack.tool.depin.TypedName
+import ru.capjack.tool.depin.NamedType
 import ru.capjack.tool.depin.internal.bindings.ImplementationBinding
 import ru.capjack.tool.depin.internal.bindings.InstanceBinding
 import ru.capjack.tool.depin.internal.bindings.SupplierBinding
@@ -60,62 +60,62 @@ internal class BinderImpl(
 	}
 	
 	
-	override fun <T : Any> bindInstance(name: TypedName<T>, instance: T) {
+	override fun <T : Any> bindInstance(name: NamedType<T>, instance: T) {
 		check(name)
 		injector.registry.setBinding(name, InstanceBinding(instance))
 	}
 	
-	override fun <T : Any> bind(name: TypedName<T>, implementation: KClass<out T>) {
+	override fun <T : Any> bind(name: NamedType<T>, implementation: KClass<out T>) {
 		bindInjected(name) { get(implementation) }
 	}
 	
-	override fun <T : Any> bind(name: TypedName<T>, producer: () -> T) {
+	override fun <T : Any> bind(name: NamedType<T>, producer: () -> T) {
 		bindInjected(name) { producer() }
 	}
 	
-	override fun <T : Any> bindInjected(name: TypedName<T>, producer: Injector.() -> T) {
+	override fun <T : Any> bindInjected(name: NamedType<T>, producer: Injector.() -> T) {
 		check(name)
 		injector.registry.setBinding(name, ReplaceBindingNamed(name, injector, producer))
 	}
 	
 	
-	override fun <T : Any> bindSupplier(name: TypedName<T>, implementation: KClass<out T>) {
+	override fun <T : Any> bindSupplier(name: NamedType<T>, implementation: KClass<out T>) {
 		check(name)
 		injector.registry.setBinding(name, ImplementationBinding(injector, implementation))
 	}
 	
-	override fun <T : Any> bindSupplier(name: TypedName<T>, producer: () -> T) {
+	override fun <T : Any> bindSupplier(name: NamedType<T>, producer: () -> T) {
 		bindSupplierInjected(name) { producer() }
 	}
 	
-	override fun <T : Any> bindSupplierInjected(name: TypedName<T>, producer: Injector.() -> T) {
+	override fun <T : Any> bindSupplierInjected(name: NamedType<T>, producer: Injector.() -> T) {
 		check(name)
 		injector.registry.setBinding(name, SupplierBinding(injector, producer))
 	}
 	
 	
-	override fun <T : Any> bindProxy(clazz: KClass<T>, init: (Binder.Factory) -> Unit) {
+	override fun <T : Any> bindProxy(clazz: KClass<T>, init: (Binder.Proxy) -> Unit) {
 		check(clazz)
 		injector.registry.setBinding(clazz, ReplaceBindingTyped(clazz, injector, createProxyFactory(clazz, init)))
 	}
 	
-	override fun <T : Any> bindProxySupplier(clazz: KClass<T>, init: (Binder.Factory) -> Unit) {
+	override fun <T : Any> bindProxySupplier(clazz: KClass<T>, init: (Binder.Proxy) -> Unit) {
 		check(clazz)
 		injector.registry.setBinding(clazz, SupplierBinding(injector, createProxyFactory(clazz, init)))
 	}
 	
-	override fun <T : Any> bindProxy(name: TypedName<T>, clazz: KClass<out T>, init: (Binder.Factory) -> Unit) {
+	override fun <T : Any> bindProxy(name: NamedType<T>, clazz: KClass<out T>, init: (Binder.Proxy) -> Unit) {
 		check(name)
 		injector.registry.setBinding(name, ReplaceBindingNamed(name, injector, createProxyFactory(clazz, init)))
 	}
 	
-	override fun <T : Any> bindProxySupplier(name: TypedName<T>, clazz: KClass<out T>, init: (Binder.Factory) -> Unit) {
+	override fun <T : Any> bindProxySupplier(name: NamedType<T>, clazz: KClass<out T>, init: (Binder.Proxy) -> Unit) {
 		check(name)
 		injector.registry.setBinding(name, SupplierBinding(injector, createProxyFactory(clazz, init)))
 	}
 	
-	private fun <T : Any> createProxyFactory(factoryClass: KClass<T>, init: (Binder.Factory) -> Unit): (InjectorImpl) -> T {
-		return FactoryBuilder(factoryClass).apply(init)::build
+	private fun <T : Any> createProxyFactory(factoryClass: KClass<T>, init: (Binder.Proxy) -> Unit): (InjectorImpl) -> T {
+		return ProxyFactoryBuilder(factoryClass).apply(init)::build
 	}
 	
 	
@@ -150,7 +150,7 @@ internal class BinderImpl(
 		}
 	}
 	
-	private fun check(name: TypedName<*>) {
+	private fun check(name: NamedType<*>) {
 		if (strong && injector.registry.hasBinding(name)) {
 			throw InjectException("Name '$name' is already binded")
 		}

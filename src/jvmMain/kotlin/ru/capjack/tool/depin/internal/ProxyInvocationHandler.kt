@@ -16,15 +16,21 @@ internal class ProxyInvocationHandler(
 	}
 	
 	override fun invoke(proxy: Any, method: Method, args: Array<Any>?): Any {
-		return when (val m = methods[method]) {
-			null -> when (method.name) {
-				"toString" -> "$typeName\$Proxy"
-				"equals"   -> proxy === args!![0]
-				"hashCode" -> hashCode()
-				else       -> throw InjectException("Unsupported method $method")
+		var m = methods[method]
+		
+		if (m == null) {
+			when (method.name) {
+				"toString" -> return "$typeName\$Proxy"
+				"equals"   -> return proxy === args!![0]
+				"hashCode" -> return hashCode()
 			}
-			else -> m.invoke(args ?: emptyArray())
+			//TODO Find method by name, arguments and return type
+			m = methods.keys.find { it.name == method.name }
+				?.let { methods[it] }
+				?: throw InjectException("Unsupported method '$method'")
 		}
+		
+		return m.invoke(args ?: emptyArray())
 	}
 	
 	private inner class MethodInvocation(method: ProxyFactoryMember) {

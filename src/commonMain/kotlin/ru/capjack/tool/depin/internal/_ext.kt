@@ -1,5 +1,6 @@
 package ru.capjack.tool.depin.internal
 
+import ru.capjack.tool.depin.Bind
 import ru.capjack.tool.depin.Inject
 import ru.capjack.tool.depin.InjectException
 import ru.capjack.tool.reflect.hasAnnotation
@@ -18,7 +19,7 @@ fun KClass<*>.checkClassInjectable() {
 		throw InjectException("Class '$this' is an interface and cannot be instantiated")
 	}
 	
-	if (!hasAnnotation<Inject>()) {
+	if (!(hasAnnotation<Inject>() || hasAnnotation<Bind>())) {
 		throw InjectException("Class '$this' is not injectable and cannot be instantiated")
 	}
 }
