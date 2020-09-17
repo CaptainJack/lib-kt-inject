@@ -9,7 +9,7 @@ annotation class Inject
 annotation class Bind(val name: String = "")
 
 @Target(AnnotationTarget.CLASS)
-annotation class Proxy
+annotation class Factory
 
 @Target(AnnotationTarget.CLASS, AnnotationTarget.FUNCTION)
 annotation class Implementation(val type: KClass<*>)

@@ -7,20 +7,20 @@ import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
 @Suppress("FunctionName")
-class TestProxyObject {
+class TestFactoryObject {
 	@Test
 	fun check_toString() {
 		val injector = Injector {}
-		val a = injector.get<StubAutoProxy>().toString()
+		val a = injector.get<StubAutoFactory>().toString()
 		
-		assertTrue(a.contains("StubAutoProxy\$Proxy"))
+		assertTrue(a.contains("StubAutoFactory\$Proxy"))
 	}
 	
 	@Test
 	fun check_hashCode_differed() {
 		val injector = Injector {}
-		val a = injector.get<StubAutoProxy>().hashCode()
-		val b = injector.get<StubAutoProxy>().hashCode()
+		val a = injector.get<StubAutoFactory>().hashCode()
+		val b = injector.get<StubAutoFactory>().hashCode()
 		
 		assertNotEquals(a, b)
 	}
@@ -28,11 +28,11 @@ class TestProxyObject {
 	@Test
 	fun check_hashCode_equals() {
 		val injector = Injector {
-			bindProxy<StubAutoProxy>()
+			bindFactory<StubAutoFactory>()
 		}
 		
-		val a = injector.get<StubAutoProxy>().hashCode()
-		val b = injector.get<StubAutoProxy>().hashCode()
+		val a = injector.get<StubAutoFactory>().hashCode()
+		val b = injector.get<StubAutoFactory>().hashCode()
 		
 		assertEquals(a, b)
 	}
@@ -40,8 +40,8 @@ class TestProxyObject {
 	@Test
 	fun check_equals_false() {
 		val injector = Injector {}
-		val a = injector.get<StubAutoProxy>().hashCode()
-		val b = injector.get<StubAutoProxy>().hashCode()
+		val a = injector.get<StubAutoFactory>().hashCode()
+		val b = injector.get<StubAutoFactory>().hashCode()
 		
 		@Suppress("ReplaceCallWithBinaryOperator")
 		assertFalse(a.equals(b))
@@ -50,11 +50,11 @@ class TestProxyObject {
 	@Test
 	fun check_equals_true() {
 		val injector = Injector {
-			bindProxy<StubAutoProxy>()
+			bindFactory<StubAutoFactory>()
 		}
 		
-		val a = injector.get<StubAutoProxy>().hashCode()
-		val b = injector.get<StubAutoProxy>().hashCode()
+		val a = injector.get<StubAutoFactory>().hashCode()
+		val b = injector.get<StubAutoFactory>().hashCode()
 		
 		@Suppress("ReplaceCallWithBinaryOperator")
 		assertTrue(a.equals(b))

@@ -12,7 +12,7 @@ import kotlin.reflect.KFunction
 
 internal class ProxyFactoryBuilder<T : Any>(
 	private val clazz: KClass<T>
-) : Binder.Proxy {
+) : Binder.Factory {
 	
 	private var members: List<ProxyFactoryMember> = clazz.publicDeclaredMembers.map {
 		if (it is KFunction<*>)
@@ -21,7 +21,7 @@ internal class ProxyFactoryBuilder<T : Any>(
 			throw InjectException("Only function allowed for proxy")
 	}
 	
-	override fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>): Binder.Proxy {
+	override fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>): Binder.Factory {
 		val memberProxy = members.find { it.member.returnTypeRef.kClass == clazz }
 			?: throw InjectException("Member for return type '${clazz}' not found in type '${this.clazz}'")
 		memberProxy.target = implementation

@@ -6,7 +6,7 @@ import ru.capjack.tool.depin.InjectException
 import ru.capjack.tool.depin.Injector
 import ru.capjack.tool.depin.Named
 import ru.capjack.tool.depin.NamedType
-import ru.capjack.tool.depin.Proxy
+import ru.capjack.tool.depin.Factory
 import ru.capjack.tool.depin.internal.bindings.InstanceBinding
 import ru.capjack.tool.depin.internal.bindings.MemberBinding
 import ru.capjack.tool.logging.Logging
@@ -114,7 +114,7 @@ internal class InjectorImpl : Injector {
 			return get(it.type) as T
 		}
 		
-		if (clazz.hasAnnotation<Proxy>()) {
+		if (clazz.hasAnnotation<Factory>()) {
 			logger.trace { "Supple '$clazz' as proxy factory" }
 			return ProxyFactoryBuilder(clazz).build(this)
 		}

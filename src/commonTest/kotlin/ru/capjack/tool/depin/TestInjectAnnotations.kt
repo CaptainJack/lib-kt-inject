@@ -65,7 +65,7 @@ class TestInjectAnnotations {
 	fun proxyFactory_by_InjectProxyFactory_and_with_InjectImplementation_member() {
 		val injector = Injector {}
 		
-		val f = injector.get<StubAutoProxy>()
+		val f = injector.get<StubAutoFactory>()
 		val a = f.createStorage()
 		val b = f.createStorage()
 		
@@ -78,7 +78,7 @@ class TestInjectAnnotations {
 		val injector = Injector {}
 		
 		assertFailsWith<InjectException> {
-			injector.get<StubBadProxy>()
+			injector.get<StubBadFactory>()
 		}
 	}
 }

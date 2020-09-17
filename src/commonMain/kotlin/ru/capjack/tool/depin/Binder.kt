@@ -34,14 +34,14 @@ interface Binder {
 	fun <T : Any> bindSupplierInjected(name: NamedType<T>, producer: Injector.() -> T)
 	
 	
-	fun <T : Any> bindProxy(clazz: KClass<T>, init: Proxy.() -> Unit = {})
+	fun <T : Any> bindFactory(clazz: KClass<T>, init: Factory.() -> Unit = {})
 	
-	fun <T : Any> bindProxySupplier(clazz: KClass<T>, init: Proxy.() -> Unit = {})
+	fun <T : Any> bindFactorySupplier(clazz: KClass<T>, init: Factory.() -> Unit = {})
 	
 	
-	fun <T : Any> bindProxy(name: NamedType<T>, clazz: KClass<out T>, init: Proxy.() -> Unit = {})
+	fun <T : Any> bindFactory(name: NamedType<T>, clazz: KClass<out T>, init: Factory.() -> Unit = {})
 	
-	fun <T : Any> bindProxySupplier(name: NamedType<T>, clazz: KClass<out T>, init: Proxy.() -> Unit = {})
+	fun <T : Any> bindFactorySupplier(name: NamedType<T>, clazz: KClass<out T>, init: Factory.() -> Unit = {})
 	
 	
 	fun addSmartProducerForClass(producer: (KClass<*>) -> Any?)
@@ -58,7 +58,7 @@ interface Binder {
 	fun addProduceObserverAfter(observer: (KClass<*>, Any) -> Unit)
 	
 	
-	interface Proxy {
-		fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>): Proxy
+	interface Factory {
+		fun <T : Any> bind(clazz: KClass<T>, implementation: KClass<out T>): Factory
 	}
 }

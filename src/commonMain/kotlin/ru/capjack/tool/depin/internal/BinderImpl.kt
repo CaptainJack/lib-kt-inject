@@ -94,27 +94,27 @@ internal class BinderImpl(
 	}
 	
 	
-	override fun <T : Any> bindProxy(clazz: KClass<T>, init: (Binder.Proxy) -> Unit) {
+	override fun <T : Any> bindFactory(clazz: KClass<T>, init: (Binder.Factory) -> Unit) {
 		check(clazz)
 		injector.registry.setBinding(clazz, ReplaceBindingTyped(clazz, injector, createProxyFactory(clazz, init)))
 	}
 	
-	override fun <T : Any> bindProxySupplier(clazz: KClass<T>, init: (Binder.Proxy) -> Unit) {
+	override fun <T : Any> bindFactorySupplier(clazz: KClass<T>, init: (Binder.Factory) -> Unit) {
 		check(clazz)
 		injector.registry.setBinding(clazz, SupplierBinding(injector, createProxyFactory(clazz, init)))
 	}
 	
-	override fun <T : Any> bindProxy(name: NamedType<T>, clazz: KClass<out T>, init: (Binder.Proxy) -> Unit) {
+	override fun <T : Any> bindFactory(name: NamedType<T>, clazz: KClass<out T>, init: (Binder.Factory) -> Unit) {
 		check(name)
 		injector.registry.setBinding(name, ReplaceBindingNamed(name, injector, createProxyFactory(clazz, init)))
 	}
 	
-	override fun <T : Any> bindProxySupplier(name: NamedType<T>, clazz: KClass<out T>, init: (Binder.Proxy) -> Unit) {
+	override fun <T : Any> bindFactorySupplier(name: NamedType<T>, clazz: KClass<out T>, init: (Binder.Factory) -> Unit) {
 		check(name)
 		injector.registry.setBinding(name, SupplierBinding(injector, createProxyFactory(clazz, init)))
 	}
 	
-	private fun <T : Any> createProxyFactory(factoryClass: KClass<T>, init: (Binder.Proxy) -> Unit): (InjectorImpl) -> T {
+	private fun <T : Any> createProxyFactory(factoryClass: KClass<T>, init: (Binder.Factory) -> Unit): (InjectorImpl) -> T {
 		return ProxyFactoryBuilder(factoryClass).apply(init)::build
 	}
 	

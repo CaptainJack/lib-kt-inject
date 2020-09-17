@@ -35,20 +35,20 @@ inline fun <T : Any, reified D : T> Binder.bindSupplier(name: NamedType<T>) =
 	bindSupplier(name, D::class)
 
 
-inline fun <reified T : Any> Binder.bindProxy(noinline init: Binder.Proxy.() -> Unit = {}) =
-	bindProxy(T::class, init)
+inline fun <reified T : Any> Binder.bindFactory(noinline init: Binder.Factory.() -> Unit = {}) =
+	bindFactory(T::class, init)
 
-inline fun <reified T : Any> Binder.bindProxySupplier(noinline init: Binder.Proxy.() -> Unit = {}) =
-	bindProxySupplier(T::class, init)
+inline fun <reified T : Any> Binder.bindFactorySupplier(noinline init: Binder.Factory.() -> Unit = {}) =
+	bindFactorySupplier(T::class, init)
 
 
-inline fun <T : Any, reified F : T> Binder.bindProxy(name: NamedType<T>, noinline init: Binder.Proxy.() -> Unit = {}) =
-	bindProxy(name, F::class, init)
+inline fun <T : Any, reified F : T> Binder.bindFactory(name: NamedType<T>, noinline init: Binder.Factory.() -> Unit = {}) =
+	bindFactory(name, F::class, init)
 
-inline fun <T : Any, reified F : T> Binder.bindProxySupplier(name: NamedType<T>, noinline init: Binder.Proxy.() -> Unit = {}) =
-	bindProxySupplier(name, F::class, init)
+inline fun <T : Any, reified F : T> Binder.bindFactorySupplier(name: NamedType<T>, noinline init: Binder.Factory.() -> Unit = {}) =
+	bindFactorySupplier(name, F::class, init)
 
-inline fun <reified T : Any, reified I : T> Binder.Proxy.bind() =
+inline fun <reified T : Any, reified I : T> Binder.Factory.bind() =
 	bind(T::class, I::class)
 
 

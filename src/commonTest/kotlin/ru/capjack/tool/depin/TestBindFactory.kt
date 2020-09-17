@@ -5,11 +5,11 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 @Suppress("FunctionName")
-class TestBindProxyFactory {
+class TestBindFactory {
 	@Test
 	fun typed() {
 		val injector = Injector {
-			bindProxy<StubUserFactory>() {
+			bindFactory<StubUserFactory>() {
 				bind<StubUser, StubUserImpl>()
 			}
 		}
@@ -25,7 +25,7 @@ class TestBindProxyFactory {
 		val name = stubNameFactory
 		
 		val injector = Injector {
-			bindProxy(name) {
+			bindFactory(name) {
 				bind<StubUser, StubUserImpl>()
 			}
 		}
@@ -40,7 +40,7 @@ class TestBindProxyFactory {
 	fun fail_on_without_provides_declaration() {
 		
 		val injector = Injector {
-			bindProxy<StubUserFactory>()
+			bindFactory<StubUserFactory>()
 		}
 		
 		assertFailsWith<InjectException> {
@@ -53,7 +53,7 @@ class TestBindProxyFactory {
 	fun fail_on_wrong_provides() {
 		
 		val builder = Injection().configure {
-			bindProxy<StubUserFactory> {
+			bindFactory<StubUserFactory> {
 				bind<StubStorage, StubStorageImpl>()
 			}
 		}

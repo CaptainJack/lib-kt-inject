@@ -70,7 +70,7 @@ class TestInjectSimple {
 	@Test
 	fun proxy_call_with_params_simple() {
 		val injector = Injector {
-			bindProxy<StubUserFactory> {
+			bindFactory<StubUserFactory> {
 				bind<StubUser, StubUserImpl>()
 			}
 		}
@@ -85,7 +85,7 @@ class TestInjectSimple {
 	@Test
 	fun proxy_call_with_params_complex() {
 		val injector = Injector {
-			bindProxy<StubUserFactory> { bind<StubUser, StubUserImpl>() }
+			bindFactory<StubUserFactory> { bind<StubUser, StubUserImpl>() }
 			bind<StubStorage, StubStorageImpl>()
 			bind<StubEmpty, StubEmpty>()
 		}
@@ -102,7 +102,7 @@ class TestInjectSimple {
 	@Test
 	fun proxy_call_with_params_equal_types() {
 		val injector = Injector {
-			bindProxy<StubUserFactory> { bind<StubUser, StubUserImpl>() }
+			bindFactory<StubUserFactory> { bind<StubUser, StubUserImpl>() }
 		}
 		
 		val factory = injector.get<StubUserFactory>()
@@ -116,7 +116,7 @@ class TestInjectSimple {
 	@Test
 	fun proxy_call_with_params_equal_types_strange() {
 		val injector = Injector {
-			bindProxy<StubUserFactory> { bind<StubUser, StubUserImpl>() }
+			bindFactory<StubUserFactory> { bind<StubUser, StubUserImpl>() }
 		}
 		
 		val factory = injector.get<StubUserFactory>()
@@ -130,7 +130,7 @@ class TestInjectSimple {
 	@Test
 	fun proxy_call_with_params_equal_types_tangled() {
 		val injector = Injector {
-			bindProxy<StubUserFactory> { bind<StubUser, StubUserImpl>() }
+			bindFactory<StubUserFactory> { bind<StubUser, StubUserImpl>() }
 		}
 		
 		val factory = injector.get<StubUserFactory>()

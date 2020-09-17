@@ -81,14 +81,14 @@ interface StubAutoImplementation
 @Inject
 class StubAutoImplementationImpl : StubAutoImplementation
 
-@Proxy
-interface StubAutoProxy {
+@Factory
+interface StubAutoFactory {
 	@Implementation(StubStorageImpl::class)
 	fun createStorage(): StubStorage
 }
 
-@Proxy
-interface StubBadProxy {
+@Factory
+interface StubBadFactory {
 	fun createStorage(value: Int): StubEmpty
 }
 
