@@ -15,7 +15,6 @@ import ru.capjack.tool.logging.trace
 import ru.capjack.tool.reflect.*
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
-import kotlin.reflect.KParameter
 
 internal class InjectorImpl : Injector {
 	
@@ -44,7 +43,7 @@ internal class InjectorImpl : Injector {
 	
 	override fun get(parameter: KParameter): Any {
 		val name = parameter.name!!
-		val type = parameter.typeRef.kClass
+		val type = parameter.type.kClass
 		
 		parameter.findAnnotation<Named>()?.let {
 			val n = if (it.name.isEmpty())

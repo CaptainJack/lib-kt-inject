@@ -2,8 +2,8 @@ package ru.capjack.tool.depin.internal
 
 import ru.capjack.tool.depin.Injector
 import ru.capjack.tool.depin.NamedType
+import ru.capjack.tool.reflect.KParameter
 import kotlin.reflect.KClass
-import kotlin.reflect.KParameter
 
 internal class Registry {
 	private val classBindings = createConcurrentMutableMap<KClass<*>, Binding<*>>()

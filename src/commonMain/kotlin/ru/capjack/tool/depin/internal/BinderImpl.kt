@@ -9,8 +9,8 @@ import ru.capjack.tool.depin.internal.bindings.InstanceBinding
 import ru.capjack.tool.depin.internal.bindings.SupplierBinding
 import ru.capjack.tool.depin.internal.bindings.ReplaceBindingNamed
 import ru.capjack.tool.depin.internal.bindings.ReplaceBindingTyped
+import ru.capjack.tool.reflect.KParameter
 import kotlin.reflect.KClass
-import kotlin.reflect.KParameter
 
 internal class BinderImpl(
 	private val injector: InjectorImpl,

@@ -2,13 +2,11 @@ package ru.capjack.tool.depin.internal
 
 import ru.capjack.tool.depin.InjectException
 import ru.capjack.tool.depin.Injector
-import ru.capjack.tool.reflect.indexRef
+import ru.capjack.tool.reflect.KParameter
 import ru.capjack.tool.reflect.qualifiedNameRef
-import ru.capjack.tool.reflect.typeRef
 import ru.capjack.tool.reflect.valueParameters
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction
-import kotlin.reflect.KParameter
 
 internal typealias ProxyFactoryMemberArgument = (Injector, Array<*>) -> Any?
 
@@ -27,7 +25,7 @@ internal class ProxyFactoryMember(
 		
 		val args = classParameters.map { classParameter ->
 			val suitableMemberParameters = memberParameters.filter {
-				it.typeRef == classParameter.typeRef
+				it.type == classParameter.type
 			}
 			
 			if (suitableMemberParameters.isNotEmpty()) {
@@ -37,7 +35,7 @@ internal class ProxyFactoryMember(
 				
 				memberParameters.remove(memberParameter)
 				
-				createReceivableArgument(memberParameter.indexRef - 1)
+				createReceivableArgument(memberParameter.index - 1)
 			}
 			else {
 				createInjectableArgument(classParameter)

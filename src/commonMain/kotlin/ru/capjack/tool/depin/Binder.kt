@@ -1,7 +1,7 @@
 package ru.capjack.tool.depin
 
+import ru.capjack.tool.reflect.KParameter
 import kotlin.reflect.KClass
-import kotlin.reflect.KParameter
 
 interface Binder {
 	fun <T : Any> bindInstance(clazz: KClass<T>, instance: T)
