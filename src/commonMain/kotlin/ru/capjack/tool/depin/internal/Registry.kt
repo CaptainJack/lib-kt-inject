@@ -3,6 +3,7 @@ package ru.capjack.tool.depin.internal
 import ru.capjack.tool.depin.Injector
 import ru.capjack.tool.depin.NamedType
 import ru.capjack.tool.reflect.KParameter
+import ru.capjack.tool.reflect.isSubclassOf
 import kotlin.reflect.KClass
 
 internal class Registry {
@@ -46,14 +47,29 @@ internal class Registry {
 		produceObserversAfter.add(observer)
 	}
 	
+	@Suppress("UNCHECKED_CAST")
 	fun <T : Any> getBinding(clazz: KClass<T>): Binding<T>? {
-		@Suppress("UNCHECKED_CAST")
 		return classBindings[clazz] as Binding<T>?
 	}
 	
+	@Suppress("UNCHECKED_CAST")
 	fun <T : Any> getBinding(name: NamedType<T>): Binding<T>? {
-		@Suppress("UNCHECKED_CAST")
 		return nameBindings[name] as Binding<T>?
+	}
+	
+	@Suppress("UNCHECKED_CAST")
+	fun <T: Any> findBindingSimilar(name: String, clazz: KClass<T>): Binding<T>? {
+		nameBindings.forEach {
+			if (it.key.name == name && it.key.type.isSubclassOf(clazz)) {
+				return it.value as Binding<T>
+			}
+		}
+		classBindings.forEach {
+			if (it.key.isSubclassOf(clazz)) {
+				return it.value as Binding<T>
+			}
+		}
+		return null
 	}
 	
 	fun trySmartProduce(injector: Injector, clazz: KClass<*>): Any? {
