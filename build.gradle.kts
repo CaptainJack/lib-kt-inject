@@ -17,16 +17,13 @@ kotlin {
 	
 	sourceSets {
 		get("commonMain").dependencies {
-			implementation("ru.capjack.tool:tool-reflect:1.3.0")
+			api("ru.capjack.tool:tool-reflect:1.3.1")
 			implementation("ru.capjack.tool:tool-logging:1.5.0")
 		}
 		get("commonTest").dependencies {
 			implementation(kotlin("test"))
 		}
 		
-		get("jvmMain").dependencies {
-			implementation(kotlin("reflect"))
-		}
 		get("jvmTest").dependencies {
 			implementation("ch.qos.logback:logback-classic:1.2.+")
 		}
