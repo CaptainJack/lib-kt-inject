@@ -1,5 +1,5 @@
 plugins {
-	kotlin("multiplatform") version "1.6.0"
+	kotlin("multiplatform") version "1.6.21"
 	id("ru.capjack.publisher") version "1.0.0"
 }
 
@@ -17,8 +17,8 @@ kotlin {
 	
 	sourceSets {
 		get("commonMain").dependencies {
-			api("ru.capjack.tool:tool-reflect:1.3.1")
-			implementation("ru.capjack.tool:tool-logging:1.5.0")
+			api("ru.capjack.tool:tool-reflect:1.4.0")
+			implementation("ru.capjack.tool:tool-logging:1.6.0")
 		}
 		get("commonTest").dependencies {
 			implementation(kotlin("test"))
